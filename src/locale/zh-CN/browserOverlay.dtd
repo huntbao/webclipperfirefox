@@ -1,0 +1,7 @@
+﻿<!ENTITY mknotewebclipper.name "麦库记事·剪集">
+<!ENTITY mknotewebclipper.menu.content "剪辑网页内容">
+<!ENTITY mknotewebclipper.menu.url "剪辑网页地址">
+<!ENTITY mknotewebclipper.menu.link "剪辑网页链接">
+<!ENTITY mknotewebclipper.menu.image "剪辑网页图片">
+<!ENTITY mknotewebclipper.menu.newnote "新建笔记">
+<!ENTITY mknotewebclipper.menu.serializeimage "是否保存图片文件">
