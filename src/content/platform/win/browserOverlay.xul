@@ -9,7 +9,10 @@
 
 <overlay id="mknotewebclipper-browser-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script type="application/x-javascript" src="chrome://mknotewebclipper/content/browserOverlay.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/main.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/jquery.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/scriptloader.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/initialization.js" />
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="mknotewebclipper-string-bundle" src="chrome://mknotewebclipper/locale/browserOverlay.properties" />
@@ -34,22 +37,33 @@
       class="menu-iconic"
       insertbefore="devToolsEndSeparator">
       <menupopup>
+        <menuitem id="mknotewebclipper-contextmenu-selection"
+          label="&mknotewebclipper.menu.selection;"
+          oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
+        <menuitem id="mknotewebclipper-contextmenu-curimage"
+          label="&mknotewebclipper.menu.curimage;"
+          oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
+        <menuitem id="mknotewebclipper-contextmenu-curlink"
+          label="&mknotewebclipper.menu.curlink;"
+          oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
         <menuitem id="mknotewebclipper-contextmenu-content"
           label="&mknotewebclipper.menu.content;"
           oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
+        <menuitem id="mknotewebclipper-contextmenu-links"
+          label="&mknotewebclipper.menu.links;"
+          oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
+        <menuitem id="mknotewebclipper-contextmenu-images"
+          label="&mknotewebclipper.menu.images;"
+          oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
+        <menuseparator id="mknotewebclipper-contextmenu-sep-sub1"/>
         <menuitem id="mknotewebclipper-contextmenu-url"
           label="&mknotewebclipper.menu.url;"
           oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
-        <menuitem id="mknotewebclipper-contextmenu-link"
-          label="&mknotewebclipper.menu.link;"
-          oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
-        <menuitem id="mknotewebclipper-contextmenu-image"
-          label="&mknotewebclipper.menu.image;"
-          oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
+        <menuseparator id="mknotewebclipper-contextmenu-sep-sub2"/>
         <menuitem id="mknotewebclipper-contextmenu-newnote"
           label="&mknotewebclipper.menu.newnote;"
           oncommand="MKNoteWebclipper.BrowserOverlay.sayHello(event);" />
-        <menuseparator id="mknotewebclipper-contextmenu-sep"/>
+        <menuseparator id="mknotewebclipper-contextmenu-sep-sub3"/>
         <menuitem id="mknotewebclipper-menu-serializeimage"
           type="checkbox"
           checked="true"
