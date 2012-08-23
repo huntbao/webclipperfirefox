@@ -23,26 +23,26 @@
             });
         },
         initContextMenuShow: function(){
-            MKNoteWebclipper.Util.debug(gContextMenu);
             var self = this,
             isContentSelected = gContextMenu.isContentSelected,
             onImage = gContextMenu.onImage,
-            onLink = gContextMenu.onLink;
-            self.contextMenus.selection[isContentSelected ? 'show' : 'hide']();
-            self.contextMenus.curlink[onLink ? 'show' : 'hide']();
-            self.contextMenus.curimage[onImage ? 'show' : 'hide']();
+            onLink = gContextMenu.onLink,
+            menus = self.contextMenus;
+            menus.selection[isContentSelected ? 'show' : 'hide']();
+            menus.curlink[onLink ? 'show' : 'hide']();
+            menus.curimage[onImage ? 'show' : 'hide']();
             if(onImage || onLink || isContentSelected){
-                self.contextMenus.content.hide();
-                self.contextMenus.links.hide();
-                self.contextMenus.images.hide();
-                self.contextMenus.url.hide();
-                self.contextMenus.subseperator1.hide();
+                menus.content.hide();
+                menus.links.hide();
+                menus.images.hide();
+                menus.url.hide();
+                menus.subseperator1.hide();
             }else{
-                self.contextMenus.content.show();
-                self.contextMenus.links.show();
-                self.contextMenus.images.show();
-                self.contextMenus.url.show();
-                self.contextMenus.subseperator1.show();
+                menus.content.show();
+                menus.links.show();
+                menus.images.show();
+                menus.url.show();
+                menus.subseperator1.show();
             }
         }
     }

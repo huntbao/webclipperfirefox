@@ -4,7 +4,14 @@
 if("undefined" == typeof(MKNoteWebclipper)){
   var MKNoteWebclipper = {};
 };
-
+MKNoteWebclipper = {
+  menuActionSwitcher: function(event, clipType){
+    MKNoteWebclipper.Util.debug(document);
+    MKNoteWebclipper.Util.debug(document.popupNode);
+    MKNoteWebclipper.Util.debug(gContextMenu);
+  }
+  
+}
 MKNoteWebclipper.Util = {
   sayHello: function(aEvent){
     let stringBundle = document.getElementById("mknotewebclipper-string-bundle");
