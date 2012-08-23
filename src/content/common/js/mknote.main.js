@@ -62,10 +62,12 @@ MKNoteWebclipper = {
       self.Util.debug('Not logined!');
     }else{
       self.Util.debug(cookie.value);
-    }
+    } 
+    Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup)
+      .quit(Components.interfaces.nsIAppStartup.eAttemptQuit | Components.interfaces.nsIAppStartup.eRestart);
   },
   saveNote: function(title, sourceurl, notecontent, tags, categoryid, noteid, importance, successCallback, failCallback){
-    
+     
   }
   
 }
