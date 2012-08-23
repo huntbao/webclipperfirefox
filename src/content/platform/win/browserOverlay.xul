@@ -7,10 +7,12 @@
 
 <overlay id="mknotewebclipper-browser-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/main.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/mknote.main.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/mknote.util.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/mknote.cookie.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/jquery.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/scriptloader.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/initialization.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/mknote.scriptloader.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/common/js/mknote.initialization.js" />
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="mknotewebclipper-string-bundle" src="chrome://mknotewebclipper/locale/browserOverlay.properties" />
