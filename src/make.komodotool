@@ -1,0 +1,18 @@
+{
+  "keyboard_shortcut": "F5", 
+  "name": "make", 
+  "language": "JavaScript", 
+  "trigger_enabled": false, 
+  "value": [
+    "// Macro recorded on: Fri Aug 24 2012 09:50:15 GMT+0800", 
+    "ko.run.output.endSession();", 
+    "ko.run.output.kill(-1);", 
+    "komodo.assertMacroVersion(3);", 
+    "if (komodo.view) { komodo.view.setFocus(); }", 
+    "ko.run.runEncodedCommand(window, 'make {\\'cwd\\': u\\'%p\\'}');"
+  ], 
+  "trigger": "trigger_postopen", 
+  "rank": 100, 
+  "async": false, 
+  "type": "macro"
+}
