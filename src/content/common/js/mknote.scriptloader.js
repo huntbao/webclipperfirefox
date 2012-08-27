@@ -1,4 +1,4 @@
-//load javascript
+﻿//load javascript
 MKNoteWebclipper.ScriptLoader = {
     _jsLoader: null,
     load: function(scriptUrl){

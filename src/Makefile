@@ -78,8 +78,13 @@ $(xpi_file): $(xpi_built)
 	@$(ZIP) $(xpi_file) $(xpi_built)
 	@echo "Creating XPI file. Done!"
 	@echo "Installing in profile folder: $(profile_location)"
+	@sleep 1
 	@cp -Rf $(build_dir)/* $(profile_location)
 	@echo "Installing in profile folder. Done!"
 	@echo
-	@taskkill /f /im firefox.exe
-	@firefox.exe
+	@echo "Kill firefox"
+	@taskkill /f /im firefox.exe /fi "STATUS eq RUNNING"
+	@echo "Restart firefox"
+	@sleep 1
+	@firefox.exe -jsconsole
+	@echo "Restart firefox success"

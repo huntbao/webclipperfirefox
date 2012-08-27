@@ -1,8 +1,9 @@
-;(function($){
+﻿;(function($){
     var MKNoteWebclipperInit = {
         init: function(){
             var self = this;
             self.initContextMenu();
+            self.jQuerySetUp();
         },
         initContextMenu: function(){
             var self = this;
@@ -44,6 +45,16 @@
                 menus.url.show();
                 menus.subseperator1.show();
             }
+        },
+        jQuerySetUp:function(){
+            $.ajaxSetup({
+                dataType: 'text',
+                cache: false,
+                dataFilter: function(data){
+                    data = $.parseJSON(data.substr(9));
+                    return data.success ? data.data : {error: data.error};
+                }
+            });
         }
     }
     $(window).bind('load', function(){
