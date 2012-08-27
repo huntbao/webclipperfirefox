@@ -60,7 +60,7 @@
         },
         notifyHTML: function(msg){
             var self = this;
-            self.clipper.Util.debug(msg);
+            self.clipper.Util.log(msg);
         },
         getTitleByText: function(txt){
             var self = this,

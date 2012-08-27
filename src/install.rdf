@@ -6,18 +6,20 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>webclipper@mknote.com</em:id>
     <em:name>Maiku Web Clipper</em:name>
-    <em:description>Maiku Web Clipper</em:description>
+    <em:description>Maiku Web Clipper For Firefox</em:description>
     <em:version>2.0</em:version>
     <em:creator>@mknote</em:creator>
+    <em:contributor>@HuntBao</em:contributor>
     <em:homepageURL>http://www.mknote.com</em:homepageURL>
     <em:type>2</em:type>
+    <em:unpack>true</em:unpack>
 
     <!-- Mozilla Firefox -->
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-        <em:minVersion>4.0</em:minVersion>
-        <em:maxVersion>10.*</em:maxVersion>
+        <em:minVersion>4.0b1</em:minVersion>
+	<em:maxVersion>15.0a1</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>

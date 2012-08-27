@@ -1,0 +1,49 @@
+﻿body{
+    margin: 0;
+    padding: 0;
+    font-size:12px;
+    font-family:'\5FAE\8F6F\96C5\9ED1',sans-serif;
+    overflow:hidden;
+}
+a:link, a:visited, a:hover{
+    color:#81b205;
+}
+.header{
+    height: 21px;
+    background-color: #f5f5f5;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid #b4b4b4;
+}
+.header .title{
+    position: absolute;
+    font-size: 11px;
+    left: 6px;
+    top: 3px;
+}
+.header .closebtn{
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    background: url(images/close.png) no-repeat;
+    cursor: pointer;
+}
+.content{
+    margin: 12px;
+    background: url(../images/icons/32x32.png) no-repeat;
+    padding-left: 32px;
+}
+.contentwrap{
+    margin-left:12px;
+}
+.contentwrap .title{
+    margin: 0;
+    font-weight: bold;
+}
+.contentwrap .tip{
+    width:233px;
+    margin:2px 0 0;
+}
+

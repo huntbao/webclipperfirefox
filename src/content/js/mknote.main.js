@@ -1,7 +1,7 @@
 ﻿/**
  * MKNoteWebclipper namespace.
  */
-if("undefined" == typeof(MKNoteWebclipper)){
+if(typeof MKNoteWebclipper == 'undefined'){
     var MKNoteWebclipper = {};
 };
 MKNoteWebclipper = {
@@ -10,12 +10,10 @@ MKNoteWebclipper = {
     iNoteAuthCookieHost: '.notelocal.sdo.com',
     menuActionSwitcher: function(event, clipType){
         var self = this;
-        self.Util.debug(content);
-        self.Util.debug(document.popupNode);
-        self.Util.debug(gContextMenu);
+        self.Util.log(gContextMenu);
         switch(clipType){
             case 'selection':
-                self.clipSelection(content);
+                self.clipSelection();
                 break;
             case 'curimage':
                 self.clipImage();
@@ -24,7 +22,7 @@ MKNoteWebclipper = {
                 self.clipLink();
                 break;
             case 'content':
-                self.clipPageContent(content);
+                self.clipPageContent();
                 break;
             case 'links':
                 self.clipAllLinks();
@@ -51,12 +49,14 @@ MKNoteWebclipper = {
     clipSelection: function(){
         var self = this,
         userSelectionText = content.getSelection().toString();
-        self.Util.debug(userSelectionText);
+        self.Util.log(userSelectionText);
         if(userSelectionText.trim() == '') return;
         self.Cookie.get(self.baseUrl, '.iNoteAuth', self.iNoteAuthCookieHost);
     },
     clipPageContent: function(){
         var self = this;
+        MKNoteWebclipper.Notification.show();
+        return;
         self.Note.saveNote('hello world', content.location.href, '你好');
     },
     checkLogin: function(callback){
@@ -71,6 +71,12 @@ MKNoteWebclipper = {
         }else{
             callback && callback();
         }
+    },
+    i18n: function(msg){
+        return '';
+    },
+    setStringBundle: function(stringBundle){
+        this._stringBundle = stringBundle;
     },
     restartFirefox: function(){
         Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup)

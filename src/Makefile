@@ -53,10 +53,13 @@ clean:
 # The sources for the XPI file.
 xpi_built := install.rdf \
              chrome.manifest \
-             $(wildcard content/common/js/*.js) \
-             $(wildcard content/platform/*/*.xul) \
-             $(wildcard content/*.xml) \
-             $(wildcard content/*.css) \
+             $(wildcard content/js/*.js) \
+             $(wildcard content/css/*.css) \
+             $(wildcard content/css/images/*.png) \
+             $(wildcard content/images/*.png) \
+             $(wildcard content/images/*/*.png) \
+             $(wildcard content/*.html) \
+             $(wildcard content/*.xul) \
              $(wildcard skin/classic/*.css) \
 	     $(wildcard skin/classic/*.png) \
 	     $(wildcard skin/classic/*/*.png) \

@@ -8978,5 +8978,6 @@ jQuery.each([ "Height", "Width" ], function( i, name ) {
 
 // Expose jQuery to the global object
 //window.jQuery = window.$ = jQuery;
+if(typeof MKNoteWebclipper == 'undefined') MKNoteWebclipper = {};
 window.MKNoteWebclipper.jQuery = window.MKNoteWebclipper.$ = jQuery;
 })(window);
