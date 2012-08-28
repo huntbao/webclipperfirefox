@@ -2,8 +2,15 @@
     var MKNoteWebclipperInit = {
         init: function(){
             var self = this;
+            self.initStringBundle();
             self.initContextMenu();
             self.jQuerySetUp();
+        },
+        initStringBundle: function(){
+            var i18n = $('#mknotewebclipper-stringbundle');
+            if(i18n.length > 0){
+                MKNoteWebclipper.i18n.stringBundle = i18n[0].stringBundle;
+            }
         },
         initContextMenu: function(){
             var self = this;
@@ -20,7 +27,7 @@
                 subseperator1: $('#mknotewebclipper-contextmenu-sep-sub1')
             }
             $('#contentAreaContextMenu').bind('popupshowing', function(){
-                self.initContextMenuShow();    
+                self.initContextMenuShow();
             });
         },
         initContextMenuShow: function(){

@@ -1,8 +1,9 @@
 ﻿//utils
 MKNoteWebclipper.Util = {
     sayHello: function(aEvent){
-        var stringBundle = document.getElementById('mknotewebclipper-string-bundle');
+        var stringBundle = document.getElementById('mknotewebclipper-stringbundle');
         var message = stringBundle.getString('mknotewebclipper.greeting.label');
+        alert(message);
     },
     log: function(msg){
         if(!msg){

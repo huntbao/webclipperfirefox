@@ -1,10 +1,15 @@
 ﻿//Notification
 ;(function($){
     MKNoteWebclipper.Notification = {
+        clipper: MKNoteWebclipper, 
         show: function(data){
             var self = this;
             if(!data){
                 data = {};
+            }else if(self._dialog){
+                self.clipper.Util.log(data);
+                self._dialog.postMessage(data, 'chrome://mknotewebclipper/content/notification.xul');
+                return;
             }
             data.i18n = MKNoteWebclipper.i18n;
             data.desktopNotification = self;

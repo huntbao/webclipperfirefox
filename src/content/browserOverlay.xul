@@ -11,12 +11,13 @@
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.jquery.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.util.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.cookie.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.i18n.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.note.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.notification.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.initialization.js" />
 
   <stringbundleset id="stringbundleset">
-    <stringbundle id="mknotewebclipper-string-bundle" src="chrome://mknotewebclipper/locale/browserOverlay.properties" />
+    <stringbundle id="mknotewebclipper-stringbundle" src="chrome://mknotewebclipper/locale/mknotewebclipper.properties" />
   </stringbundleset>
   
   <!-- Tools menu -->

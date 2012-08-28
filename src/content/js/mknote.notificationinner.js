@@ -4,9 +4,11 @@
             var self = this;
             self.initContent(params);
             self.initCloseBtn(params);
+            self.addMessageListener();
         },
         initContent: function(params){
             var self = this;
+            $('#title').html(params.i18n.getMessage('mknotewebclipper.name'));
             $('#tip').html(params.tip);
         },
         initCloseBtn: function(params){
@@ -14,6 +16,14 @@
             $('#closebtn').click(function(e){
                 params.desktopNotification.close();
             });
+        },
+        addMessageListener: function(){
+            var self = this,
+            messageHandler = function(e){
+                alert(e.origin)
+                $('#tip').html(e.data);
+            }
+            window.addEventListener('message', messageHandler, true);
         }
     }
     $(function(){

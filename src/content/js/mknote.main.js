@@ -56,6 +56,9 @@ MKNoteWebclipper = {
     clipPageContent: function(){
         var self = this;
         MKNoteWebclipper.Notification.show();
+        setInterval(function(){
+            MKNoteWebclipper.Notification.show('heelo');
+        }, 1000);
         return;
         self.Note.saveNote('hello world', content.location.href, '你好');
     },
@@ -71,12 +74,6 @@ MKNoteWebclipper = {
         }else{
             callback && callback();
         }
-    },
-    i18n: function(msg){
-        return '';
-    },
-    setStringBundle: function(stringBundle){
-        this._stringBundle = stringBundle;
     },
     restartFirefox: function(){
         Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup)

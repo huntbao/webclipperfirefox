@@ -38,7 +38,7 @@ a:link, a:visited, a:hover{
 .contentwrap{
     margin-left:12px;
 }
-.contentwrap .title{
+.contentwrap .tiptitle{
     margin: 0;
     font-weight: bold;
 }
