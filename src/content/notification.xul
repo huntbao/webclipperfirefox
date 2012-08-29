@@ -2,24 +2,15 @@
         
 <!DOCTYPE panel SYSTEM "chrome://mknotewebclipper/locale/notification.dtd">
 
-<panel id="webclipperPopup" title="&title;" orient="vertical" autostretch="always"
-       buttons=","
-       defaultButton=","
-       shadow="true"
-       style="padding: 0; margin: 0;"
-       onload="init();"
-       ondialogcancel="notifyCancel();"
+<window id="webclipperpopup"
+       onload="init()"
        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script type="text/javascript">
         function init(){
             window.frames[0].panel = window;
-            window.frames[0].panelContainer = document.getElementById('deskpop-notification');
-        }
-        function notifyCancel(){
-            window.close();
         }
     </script>
     <iframe src="chrome://mknotewebclipper/content/notification.html" type="content"
             style="box-shadow:3px 3px 5px #888; border:1px solid #7e7e7e; border-radius:5px;background-color: transparent; width: 300px; height: 80px; padding: 0; overflow: hidden;"
             id="deskpop-notification" />
-</panel>
+</window>

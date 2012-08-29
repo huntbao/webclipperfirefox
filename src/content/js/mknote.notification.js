@@ -30,6 +30,7 @@
             var self = this;
             if(self._dialog){
                 self._dialog.close();
+                clearTimeout(self.notificationTimer);
                 self._dialog = null;
                 self._dialogData = null;
             }

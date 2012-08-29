@@ -57,6 +57,124 @@
                 }
             });
         },
+        downloadImage: function(url, imgIndex, successCallback, errorCallback){
+            var self = this;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.responseType = 'arraybuffer';
+            xhr.onload = function(e){
+                if (this.status == 200){                 
+                    var suffix = url.split('.'),
+                    blob = new Blob([this.response], {type: 'image/' + suffix[suffix.length - 1]}),
+                    parts = url.split('/'),
+                    fileName = parts[parts.length - 1];
+                    self.sendFileToServer(blob);
+                    return;
+                    window.requestFileSystem(TEMPORARY, this.response.byteLength, function(fs){
+                        self.writeBlobAndSendFile(fs, blob, fileName, successCallback, errorCallback, imgIndex);
+                    }, self.onFileError);
+                }
+            }
+            xhr.onerror = function(){
+                self.clipper.Util.log('retrieve remote image xhr onerror');
+                errorCallback && errorCallback(imgIndex);
+            }
+            xhr.onabort = function(){
+                self.clipper.Util.log('retrieve remote image xhr onabort');
+                errorCallback && errorCallback(imgIndex);
+            }
+            xhr.send(null);
+        },
+        getImageFromURL: function(url){
+            var self = this;
+            var ioserv = Components.classes["@mozilla.org/network/io-service;1"]
+                         .getService(Components.interfaces.nsIIOService); 
+            var channel = ioserv.newChannel(url, 0, null); 
+            var stream = channel.open();
+            if(channel instanceof Components.interfaces.nsIHttpChannel && channel.responseStatus != 200){
+              return '';
+            }
+            var bstream = Components.classes['@mozilla.org/binaryinputstream;1'] 
+                          .createInstance(Components.interfaces.nsIBinaryInputStream); 
+            bstream.setInputStream(stream); 
+            var size = 0; 
+            var fileData = ''; 
+            while(bstream.available()){
+                fileData += bstream.readBytes(bstream.available());
+            }
+            self.clipper.Util.log(size);
+            self.clipper.Util.log(url);
+            //self.sendFileToServer(fileData);
+            return fileData;
+            /*var file = Components.classes["@mozilla.org/file/local;1"]
+                        .createInstance(Components.interfaces.nsILocalFile);
+            file.initWithPath("C:\\filename.gif");
+            var wbp = Components.classes['@mozilla.org/embedding/browser/nsWebBrowserPersist;1']
+                      .createInstance(Components.interfaces.nsIWebBrowserPersist);
+            var ios = Components.classes['@mozilla.org/network/io-service;1']
+                      .getService(Components.interfaces.nsIIOService);
+            var uri = ios.newURI(url, null, null);
+            wbp.persistFlags &= ~Components.interfaces.nsIWebBrowserPersist.PERSIST_FLAGS_NO_CONVERSION; // don't save gzipped
+            wbp.saveURI(uri, null, null, null, null, file);*/
+        },
+        sendFileToServer: function(file, successCallback, failCallback){
+            var self = this,
+            formData = new FormData();
+            formData.append('type', 'Attachment');
+            formData.append('categoryId', '');
+            formData.append('id', '');
+            var filename = 'hi';
+            formData.append("file\"; FileName=\"" + filename + "\"", file);
+            $.ajax({
+                url: self.clipper.baseUrl + "/attachment/savemany/",
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    if(data.error){
+                        //todo: server error, pending note...
+                        self.clipper.Util.log('Internal error');
+                        self.clipper.Util.log(data.error);
+                        if(failCallback){
+                            failCallback(true);
+                        }
+                        return;
+                    }
+                    self.clipper.Util.log(data)
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    self.clipper.Util.log('xhr error: ')
+                    self.clipper.Util.log(textStatus)
+                    self.notifyHTML('UploadImagesFailed');
+                }
+            });    
+        },
+        writeBlobAndSendFile: function(fs, blob, fileName, successCallback, errorCallback, imgIndex){
+            var self = this;
+            fs.root.getFile(fileName, {create: true}, function(fileEntry){
+                fileEntry.createWriter(function(fileWriter){
+                    fileWriter.onwrite = function(e){
+                        self.clipper.Util.log('Write completed.');
+                        fileEntry.file(function(file){
+                            successCallback(file, imgIndex);
+                        });
+                    };
+                    fileWriter.onerror = function(e){
+                        self.clipper.Util.log('Write failed: ' + e.toString());
+                    };
+                    fileWriter.write(blob);
+                }, self.onFileError);
+            }, self.onFileError);
+        },
+        onFileError: function(err){
+            for(var p in FileError){
+                if(FileError[p] == err.code){
+                    self.clipper.Util.log('Error code: ' + err.code + 'Error info: ' + p);
+                    break;
+                }
+            }
+        },
         notifyHTML: function(message, lastTime, purgeText){
             var self = this;
             message = purgeText ? message : self.getI18nMessage(message);

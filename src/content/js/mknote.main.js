@@ -51,7 +51,11 @@ MKNoteWebclipper = {
         userSelectionText = content.getSelection().toString();
         self.Util.log(userSelectionText);
         if(userSelectionText.trim() == '') return;
-        self.Cookie.get(self.baseUrl, '.iNoteAuth', self.iNoteAuthCookieHost);
+    },
+    clipImage: function(){
+        var self = this,
+        target = gContextMenu.target;
+        self.Note.getImageFromURL(target.src);
     },
     clipPageContent: function(){
         var self = this;
