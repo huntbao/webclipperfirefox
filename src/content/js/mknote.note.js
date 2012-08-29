@@ -23,7 +23,6 @@
                 noteid: noteid || '',
                 importance: importance || 0
             }
-            
             self.notifyHTML('IsSavingNote', false);
             $.ajax({
                 headers: {
@@ -43,24 +42,28 @@
                         return;
                     }
                     self.notifyHTML('SaveNoteSuccess');
-                    self.notifyHTML(data);
+                    self.clipper.Util.log(data);
                     successCallback && successCallback();
-                    var successTip = 'SaveNoteSuccess',
+                    var successTip = self.getI18nMessage('SaveNoteSuccess'),
                     viewURL = self.clipper.baseUrl + '/note/previewfull/' + data.Note.NoteID,
-                    viewTxt = 'ViewText';
-                    self.notifyHTML(successTip + '<a href="' + viewURL + '" target="_blank" id="closebtn">' + viewTxt + '</a>', 10000);
+                    viewTxt = self.getI18nMessage('ViewText');
+                    self.notifyHTML(successTip + '<a href="' + viewURL + '" target="_blank" id="customclosebtn">' + viewTxt + '</a>', 10000, true);
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     failCallback && failCallback();
                     self.notifyHTML('SaveNoteFailed');
-                    self.notifyHTML(textStatus);
-                    self.notifyHTML(errorThrown);
+                    self.clipper.Util.log(textStatus);
+                    self.clipper.Util.log(errorThrown);
                 }
             });
         },
-        notifyHTML: function(msg){
+        notifyHTML: function(message, lastTime, purgeText){
             var self = this;
-            self.clipper.Util.log(msg);
+            message = purgeText ? message : self.getI18nMessage(message);
+            self.clipper.Notification.show(message, lastTime);
+        },
+        getI18nMessage: function(i18nString){
+            return this.clipper.i18n.getMessage('mknotewebclipper.' + i18nString);
         },
         getTitleByText: function(txt){
             var self = this,
@@ -97,7 +100,7 @@
                 }
             }
             finalTitle = finalTitle.trim();
-            return finalTitle.length > 0 ? finalTitle : '[未命名笔记]';
+            return finalTitle.length > 0 ? finalTitle : ('[' + self.clipper.i18n.getMessage('DefaultTitle') + ']');
         },
     }
 })(MKNoteWebclipper.jQuery);

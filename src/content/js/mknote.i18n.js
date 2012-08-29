@@ -12,7 +12,7 @@
                         return self._stringBundle.GetStringFromName(key);
                     }
                 }catch(e){
-                    self.clipper.Util.log("Get failed: key = " + key + ", error = " + e );
+                    self.clipper.Util.log('Get failed: key = ' + key + ', error = ' + e );
                 }
             }
             return '';

@@ -4,26 +4,35 @@
             var self = this;
             self.initContent(params);
             self.initCloseBtn(params);
-            self.addMessageListener();
         },
         initContent: function(params){
             var self = this;
             $('#title').html(params.i18n.getMessage('mknotewebclipper.name'));
-            $('#tip').html(params.tip);
+            var tip = $('#tip').html(params.message),
+            checkCloseBtn = function(){
+                var closeBtn = $('#customclosebtn');
+                if(closeBtn.length > 0){
+                    closeBtn.mouseup(function(){
+                        setTimeout(function(){
+                            params.desktopNotification.close();
+                        }, 10);
+                    });
+                }
+            }
+            //rewrite changeMessage method
+            params.changeMessage = function(message){
+                tip.css('opacity', 1).fadeOut(function(){
+                    $(this).html(message).fadeIn();
+                    checkCloseBtn();
+                });
+            }
+            checkCloseBtn();
         },
         initCloseBtn: function(params){
             var self = this;
             $('#closebtn').click(function(e){
                 params.desktopNotification.close();
             });
-        },
-        addMessageListener: function(){
-            var self = this,
-            messageHandler = function(e){
-                alert(e.origin)
-                $('#tip').html(e.data);
-            }
-            window.addEventListener('message', messageHandler, true);
         }
     }
     $(function(){

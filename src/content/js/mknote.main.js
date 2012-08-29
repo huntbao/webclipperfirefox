@@ -55,17 +55,13 @@ MKNoteWebclipper = {
     },
     clipPageContent: function(){
         var self = this;
-        MKNoteWebclipper.Notification.show();
-        setInterval(function(){
-            MKNoteWebclipper.Notification.show('heelo');
-        }, 1000);
-        return;
         self.Note.saveNote('hello world', content.location.href, '你好');
     },
     checkLogin: function(callback){
         var self = this,
         cookie = self.Cookie.get(self.baseUrl, self.loginCookieName, self.iNoteAuthCookieHost);
         if(cookie == null){
+            self.Notification.show(self.i18n.getMessage('mknotewebclipper.NotLogin'), false);
             var popLoginWin = content.openDialog(self.baseUrl + '/login', '','chrome, titlebar = no, left = 10, top = 10, width = 800, height = 600, resizable = no');
             self.Cookie.getObserverService(self.loginCookieName, function(){
                 popLoginWin.close();

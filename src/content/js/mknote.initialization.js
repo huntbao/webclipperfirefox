@@ -1,5 +1,6 @@
 ﻿;(function($){
     var MKNoteWebclipperInit = {
+        clipper: MKNoteWebclipper,
         init: function(){
             var self = this;
             self.initStringBundle();
@@ -7,9 +8,10 @@
             self.jQuerySetUp();
         },
         initStringBundle: function(){
-            var i18n = $('#mknotewebclipper-stringbundle');
+            var self = this,
+            i18n = $('#mknotewebclipper-stringbundle');
             if(i18n.length > 0){
-                MKNoteWebclipper.i18n.stringBundle = i18n[0].stringBundle;
+                self.clipper.i18n.stringBundle = i18n[0].stringBundle;
             }
         },
         initContextMenu: function(){

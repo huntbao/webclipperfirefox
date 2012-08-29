@@ -2,27 +2,36 @@
 ;(function($){
     MKNoteWebclipper.Notification = {
         clipper: MKNoteWebclipper, 
-        show: function(data){
+        show: function(message, lastTime){
             var self = this;
-            if(!data){
-                data = {};
-            }else if(self._dialog){
-                self.clipper.Util.log(data);
-                self._dialog.postMessage(data, 'chrome://mknotewebclipper/content/notification.xul');
-                return;
+            if(self._dialog){
+                clearTimeout(self.notificationTimer);
+                self._dialogData.changeMessage(message);
+            }else{
+                self._dialogData = {
+                    i18n: self.clipper.i18n,
+                    desktopNotification: self,
+                    message: message,
+                    changeMessage: function(){
+                        //this method will be rewrited in dialog code
+                    }
+                }
+                var position = self.getPosition();
+                self._dialog = window.openDialog('chrome://mknotewebclipper/content/notification.xul', '',
+                    'chrome, popup, left=' + position.left + ', top=' + position.top + ', titlebar=no, resizable=no', self._dialogData);
             }
-            data.i18n = MKNoteWebclipper.i18n;
-            data.desktopNotification = self;
-            data.tip = '正在保存，请稍候...<a href="http://www.mknote.com" target="_blank">查看</a>';
-            var position = self.getPosition();
-            self._dialog = window.openDialog('chrome://mknotewebclipper/content/notification.xul', '',
-                'chrome, popup, left=' + position.left + ', top=' + position.top + ', titlebar=no, resizable=no', data);
+            if(lastTime !== false){
+                self.notificationTimer = setTimeout(function(){
+                    self.close();
+                }, lastTime || 5000);
+            }
         },
         close: function(){
             var self = this;
             if(self._dialog){
                 self._dialog.close();
                 self._dialog = null;
+                self._dialogData = null;
             }
         },
         getPosition: function(){
