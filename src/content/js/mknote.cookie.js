@@ -1,4 +1,5 @@
-﻿//cookie
+﻿//@huntbao @mknote
+//All right reserved
 MKNoteWebclipper.Cookie = {
     clipper: MKNoteWebclipper,
     get: function(url, name, host){

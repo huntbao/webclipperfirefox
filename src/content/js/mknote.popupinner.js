@@ -4,7 +4,9 @@
     var maikuNotePopup = {
         init: function(proxy){
             var self = this;
+	    proxy.showWin();
 	    self.addEvents(proxy);
+	    self.initAddNode(proxy);
 	    proxy.createInspector();
 	    //self.initExtensionRequest();
 	    //self.initCategories();
@@ -50,7 +52,6 @@
                 startPageY = e.pageY;
             });
             $('#closebtn').click(function(e){
-                //parent.postMessage({name: 'closefrommaikupopup'}, '*');
 		proxy.closeWin();
                 return false;
             });
@@ -279,20 +280,22 @@
 	    //send request to backgroun page
 	    chrome.extension.sendRequest({name: 'getuser', refresh: refresh});
 	},
-        actionfrompopupinspecotrHandler: function(data){
-            var self = this;
-            if(data.add){
-                //add content
-                self.addNode($('<div mkclip="true" id="' + data.uid + '"></div>').append(data.content));
-                if(data.title){
-                    //for auto extract content
-                    self.title.val(data.title);
-                }
-            }else{
-                //remove content by uid
-                $('#' + data.uid).remove();
-            }
-        }
+	initAddNode: function(proxy){
+	    var self = this;
+	    proxy.addNode = function(data){
+		if(data.add){
+		    //add content
+		    self.addNode($('<div mkclip="true" id="' + data.uid + '"></div>').append(data.content));
+		    if(data.title){
+			//for auto extract content
+			self.title.val(data.title);
+		    }
+		}else{
+		    //remove content by uid
+		    $('#' + data.uid).remove();
+		}
+	    }
+	}
     }
     $(function(){
 	var startTime = new Date().getTime(),

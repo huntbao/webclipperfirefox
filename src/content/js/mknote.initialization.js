@@ -1,4 +1,6 @@
-﻿;(function($){
+﻿//@huntbao @mknote
+//All right reserved
+;(function($){
     var MKNoteWebclipperInit = {
         clipper: MKNoteWebclipper,
         init: function(){

@@ -1,4 +1,5 @@
-﻿//popup
+﻿//@huntbao @mknote
+//All right reserved
 ;(function($){
     MKNoteWebclipper.Popup = {
         clipper: MKNoteWebclipper,
@@ -13,7 +14,13 @@
                 },
                 createInspector: function(){
                     self._createInspector();
-                }
+                },
+		showWin: function(){
+		    self.popupInstance.show();
+		},
+		addNode: function(){
+		    //override by iframe
+		}
             }
         },
         _createInspector: function(autoExtractContent){
@@ -39,14 +46,13 @@
                 'z-index': popupZIndex - 1,
                 background: 'transparent'
             });
-            var backgroundImageSrc = '',
+            var backgroundImageSrc = 'chrome://mknotewebclipper/content/css/images/sprite.png',
             markInner = $('<div mkclip="true"></div>', body).css({
-                background: '#ccffcc',
+                background: 'rgba(204, 255, 204, 0.5)',
                 height: '100%',
                 position: 'absolute',
                 left: 0,
                 top: 0,
-                opacity: 0.35,
                 width: '100%'
             }),
             markExpandor = $('<div mkclip="true"></div>', body).css({
@@ -59,8 +65,8 @@
                 left: 1,
                 'z-index': popupZIndex - 1
             }).attr('title', 'MarkExpandorTip'),
-            markClose = $('<span mkclip="true"></span', body).css({
-                background: 'url(' + backgroundImageSrc + ', body) -120px -44px no-repeat',
+            markClose = $('<div mkclip="true"></div>', body).css({
+                background: 'url(' + backgroundImageSrc + ') -120px -44px no-repeat',
                 height: 20,
                 width: 20,
                 cursor: 'pointer',
@@ -83,8 +89,7 @@
             self.marks = {};//save all marks
             self.markCount = 0;
             self.body = body;
-            self.doc = doc;
-            doc.bind('mousemove.maikuclippermark', function(e){
+            body.bind('mousemove.maikuclippermark', function(e){
                 self.mouseMoveMarkHandler(e);
             }).bind('click.maikuclippermark', function(e){
                 self.clickMarkHandler(e);
@@ -93,14 +98,14 @@
             });
             if(autoExtractContent){
                 //extract content
-                var extract = self.extractContent(document);
+                var extract = self.extractContent(doc[0]);
                 if(extract.isSuccess){
                     var extractedContent = extract.content.asNode();
                     if(extractedContent.nodeType == 3){
                         extractedContent = extractedContent.parentNode;
                     }
                     setTimeout(function(){
-                        var title = document.title && document.title.split('-')[0];
+                        var title = doc[0].title && doc[0].title.split('-')[0];
                         self.addMark($(extractedContent), self.mark.clone(), title.trim());
                     },0);
                 }
@@ -270,7 +275,7 @@
             nodeCSSStyleDeclaration = getComputedStyle(node[0]);
             if(allElesLength == 0){
                 //no child
-                if(!/^(img|a)$/.test(nodeTagName) && node[0].innerHTML == 0 && nodeCSSStyleDeclaration['background-image'] == 'none'){
+                if(!/^(img|a)$/.test(nodeTagName) && node[0].innerHTML == 0 && nodeCSSStyleDeclaration['backgroundImage'] == 'none'){
                     return '';
                 }
             }
@@ -303,7 +308,7 @@
                     cloneEl.css({
                         width: cssStyleDeclaration.width,
                         height: cssStyleDeclaration.height,
-                        float: cssStyleDeclaration.float,
+                        float: cssStyleDeclaration.cssFloat,
                         background: cssStyleDeclaration.background,
                     });
                     continue;
@@ -320,7 +325,9 @@
                 if(tagName == 'a'){
                     cloneEl.attr('href', el.href);
                 }else if(/^(ul|ol|li)$/.test(tagName)){
-                    styleObj['list-style'] = cssStyleDeclaration['list-style'];
+                    styleObj['listStyleImage'] = cssStyleDeclaration['listStyleImage'];
+                    styleObj['listStylePosition'] = cssStyleDeclaration['listStylePosition'];
+                    styleObj['listStyleType'] = cssStyleDeclaration['listStyleType'];
                 }
                 cloneEl.css(styleObj);
                 self.removeAttrs(cloneEl);
@@ -333,7 +340,7 @@
                 for(var cssProperty in saveStyles){
                     cssValue = nodeCSSStyleDeclaration[cssProperty];
                     if(cssValue == saveStyles[cssProperty]) continue;
-                    if(/^(margin|float)$/.test(cssProperty)) continue;
+                    if(/^(margin|cssFloat)$/.test(cssProperty)) continue;
                     if(cssProperty == 'color'){
                         styleObj[cssProperty] = (color == 'rgb(255,255,255)' ? '#000' : color);
                         continue;
@@ -347,48 +354,83 @@
         },
         filterTagsObj: {style:1,script:1,link:1,iframe:1,frame:1,frameset:1,noscript:1,head:1,html:1,applet:1,base:1,basefont:1,bgsound:1,blink:1,ilayer:1,layer:1,meta:1,object:1,embed:1,input:1,textarea:1,button:1,select:1,canvas:1,map:1},
         saveStyles:{
-            'background': 'rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box',
-            'border': '0px none rgb(0, 0, 0)',
-            'bottom': 'auto',
-            'box-shadow': 'none',
-            'clear': 'none',
-            'color': 'rgb(0, 0, 0)',
-            'cursor': 'auto',
-            'display': '',//consider inline tag or block tag, this value must have
-            'float': 'none',
-            'font': '',//this value must have, since it affect the appearance very much and style inherit is very complex
-            'height': 'auto',
-            'left': 'auto',
-            'letter-spacing': 'normal',
-            'line-height': 'normal',
-            'margin': '',
-            'max-height': 'none',
-            'max-width': 'none',
-            'min-height': '0px',
-            'min-width': '0px',
-            'opacity': '1',
-            'outline': 'rgb(0, 0, 0) none 0px',
-            'overflow': 'visible',
-            'padding': '',
-            'position': 'static',
-            'right': 'auto',
-            'table-layout': 'auto',
-            'text-align': 'start',
-            'text-decoration': '',
-            'text-indent': '0px',
-            'text-shadow': 'none',
-            'text-overflow': 'clip',
-            'text-transform': 'none',
-            'top': 'auto',
-            'vertical-align': 'baseline',
-            'visibility': 'visible',
-            'white-space': 'normal',
-            'width': 'auto',
-            'word-break': 'normal',
-            'word-spacing': '0px',
-            'word-wrap': 'normal',
-            'z-index': 'auto',
-            'zoom': '1'
+	    'backgroundAttachment': 'scroll',
+	    'backgroundColor': 'transparent',
+	    'backgroundImage': 'none',
+	    'backgroundPosition': '0% 0%',
+	    'backgroundRepeat': 'repeat',
+	    'borderCollapse': 'separate',
+	    'borderColor': '',
+	    'borderSpacing': '0px 0px',
+	    'borderStyle': '',
+	    'borderTop': '',
+	    'borderRight': '',
+	    'borderBottom': '',
+	    'borderLeft': '',
+	    'borderTopColor': 'rgb(0, 0, 0)',
+	    'borderRightColor': 'rgb(0, 0, 0)',
+	    'borderBottomColor': 'rgb(0, 0, 0)',
+	    'borderLeftColor': 'rgb(0, 0, 0)',
+	    'borderTopStyle': 'none',
+	    'borderRightStyle': 'none',
+	    'borderBottomStyle': 'none',
+	    'borderLeftStyle': 'none',
+	    'borderTopWidth': '0px',
+	    'borderRightWidth': '0px',
+	    'borderBottomWidth': '0px',
+	    'borderLeftWidth': '0px',
+	    'borderWidth': '',
+	    'borderRadius': '',
+	    'borderTopLeftRadius': '0px',
+	    'borderTopRightRadius': '0px',
+	    'borderBottomLeftRadius': '0px',
+	    'borderBottomRightRadius': '0px',
+	    'bottom': 'auto',
+	    'clear': 'none',
+	    'color': 'rgb(0, 0, 0)',
+	    'cursor': 'auto',
+	    'display': 'block',
+	    'cssFloat': 'none',
+	    'fontFamily': '',
+	    'fontSize': '',
+	    'fontStyle': 'normal',
+	    'fontWeight': '400',
+	    'height': '',
+	    'left': 'auto',
+	    'letterSpacing': 'normal',
+	    'lineHeight': '20px',
+	    'marginTop': '0px',
+	    'marginRight': '0px',
+	    'marginBottom': '0px',
+	    'marginLeft': '0px',
+	    'maxHeight': 'none',
+	    'maxWidth': 'none',
+	    'minHeight': '0px',
+	    'minWidth': '0px',
+	    'overflow': 'visible',
+	    'paddingTop': '0px',
+	    'paddingRight': '0px',
+	    'paddingBottom': '0px',
+	    'paddingLeft': '0px',
+	    'position': 'static',
+	    'right': 'auto',
+	    'tableLayout': 'auto',
+	    'textAlign': 'start',
+	    'textDecoration': 'none',
+	    'textIndent': '0px',
+	    'top': 'auto',
+	    'verticalAlign': 'baseline',
+	    'visibility': 'visible',
+	    'whiteSpace': 'normal',
+	    'width': '',
+	    'wordSpacing': '0px',
+	    'zIndex': 'auto',
+	    'backgroundClip': 'border-box',
+	    'backgroundOrigin': 'padding-box',
+	    'opacity': '1',
+	    'overflowX': 'visible',
+	    'overflowY': 'visible',
+	    'wordWrap': 'normal'
         },
         removeAttrs: function(node){
             var removeAttrs = ['id', 'class', 'height', 'width'];
@@ -404,15 +446,14 @@
             return res;
         },
         sendContentToPopup: function(uid, content, add, title){
-            //cannot send data directly to popup page, so connect to background page first
+	    var self = this;
             if(add && !content) return;//add blank node, return;
-            var port = chrome.extension.connect({name:'actionfrompopupinspecotr'});
-		port.postMessage({
-                uid: uid,
+	    self.iframe.communicationProxy.addNode({
+		uid: uid,
                 content: content,
                 add: add,
                 title: title
-            });
+	    });
         },
         saveNote: function(notedata){
             var port = chrome.extension.connect({name:'savenotefrompopup'});

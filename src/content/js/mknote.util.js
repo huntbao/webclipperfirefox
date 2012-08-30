@@ -1,4 +1,5 @@
-﻿//utils
+﻿//@huntbao @mknote
+//All right reserved
 MKNoteWebclipper.Util = {
     sayHello: function(aEvent){
         var stringBundle = document.getElementById('mknotewebclipper-stringbundle');

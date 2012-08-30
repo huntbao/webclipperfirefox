@@ -1,3 +1,5 @@
+//@huntbao @mknote
+//All right reserved
 ;(function(){
     MKNoteWebclipper.i18n = {
         clipper: MKNoteWebclipper,

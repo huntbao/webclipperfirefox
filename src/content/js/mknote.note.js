@@ -1,4 +1,5 @@
-﻿//Note
+﻿//@huntbao @mknote
+//All right reserved
 ;(function($){
     MKNoteWebclipper.Note = {
         clipper: MKNoteWebclipper,

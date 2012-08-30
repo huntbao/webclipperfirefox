@@ -1,6 +1,5 @@
-﻿/**
- * MKNoteWebclipper namespace.
- */
+﻿//@huntbao @mknote
+//All right reserved
 if(typeof MKNoteWebclipper == 'undefined'){
     var MKNoteWebclipper = {};
 };
@@ -75,11 +74,10 @@ MKNoteWebclipper = {
         iframe = self.jQuery('<iframe frameborder="0" style="width:100%;height:100%;"></iframe>', content.document).appendTo(popupInstance),
         iframeWin = iframe[0].contentWindow;
         iframeWin.location.href = 'chrome://mknotewebclipper/content/popup.xul';
-        popupInstance.show();
         content.currentMaikuWebclipperPopup = {
             targetWin: window,
             instance: popupInstance
-        };
+        }
     },
     checkLogin: function(callback){
         var self = this,

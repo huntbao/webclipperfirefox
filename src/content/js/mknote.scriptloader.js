@@ -1,4 +1,5 @@
-﻿//load javascript
+﻿//@huntbao @mknote
+//All right reserved
 MKNoteWebclipper.ScriptLoader = {
     _jsLoader: null,
     load: function(scriptUrl){

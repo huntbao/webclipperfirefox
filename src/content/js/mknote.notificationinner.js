@@ -1,4 +1,6 @@
-﻿;(function($){
+﻿//@huntbao @mknote
+//All right reserved
+;(function($){
     var notificationInner = {
         init: function(params){
             var self = this;
