@@ -61,6 +61,26 @@ MKNoteWebclipper = {
         var self = this;
         self.Note.saveNote('hello world', content.location.href, '你好');
     },
+    newNote: function(){
+        var self = this;
+        self.createPopup();
+    },
+    createPopup: function(){
+        if(content.currentMaikuWebclipperPopup) return;
+        var self = this,
+        popupInstance = self.jQuery('<div mkclip="true" style="position:fixed;right:8px;top:8px;width:450px;height:450px;\
+        min-height:304px;max-height:644px;z-index:;border-radius:3px;box-shadow:0 0 5px 0 #333;overflow:hidden;z-index:20120830"></div>', content.document)
+            .hide()
+            .appendTo(content.document.body),
+        iframe = self.jQuery('<iframe frameborder="0" style="width:100%;height:100%;"></iframe>', content.document).appendTo(popupInstance),
+        iframeWin = iframe[0].contentWindow;
+        iframeWin.location.href = 'chrome://mknotewebclipper/content/popup.xul';
+        popupInstance.show();
+        content.currentMaikuWebclipperPopup = {
+            targetWin: window,
+            instance: popupInstance
+        };
+    },
     checkLogin: function(callback){
         var self = this,
         cookie = self.Cookie.get(self.baseUrl, self.loginCookieName, self.iNoteAuthCookieHost);
