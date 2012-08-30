@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+        
+<!DOCTYPE panel SYSTEM "chrome://mknotewebclipper/locale/popup.dtd">
+
+<panel onload="MKNoteWebclipper.Popup.init()" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.jquery.js"></script>
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.util.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.cookie.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.i18n.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.popup.js"></script>
+    <iframe src="chrome://mknotewebclipper/content/popup.html" type="content"
+        style="box-shadow:3px 3px 5px #888; border:1px solid #7e7e7e; border-radius:5px;background-color: transparent; width: 438px; height: 450px; padding: 0; overflow: hidden;"
+        id="deskpop-popup" />
+</panel>
