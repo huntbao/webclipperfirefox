@@ -10,6 +10,7 @@
 		clipper: content.currentMaikuWebclipperPopup.clipper,
                 closeWin: function(){
 		    this.clipper.deletePopup(content.currentMaikuWebclipperPopup);
+		    $(content.document).unbind('keydown.maikuclipperpopup');
                     popupInstance.remove();
 		    self.removeInspector();
                 },
@@ -30,9 +31,21 @@
 		},
 		updateUserInfo: function(){
 		    //override by iframe
+		},
+		hideMask: function(){
+		    self.mask && self.mask.hide();
 		}
             }
+	    self.initEvents();
         },
+	initEvents: function(){
+	    var self = this;
+	    $(content.document).bind('keydown.maikuclipperpopup', function(e){
+		if(e.keyCode == 27){
+		    content.maikuWebclipperPopupIframe.communicationProxy.closeWin();
+		}
+	    });
+	},
         _createInspector: function(autoExtractContent){
             var self = this,
             popupZIndex = 20120830,
@@ -126,6 +139,8 @@
             var self = this;
             if(!self.markContainer) return;
             self.markContainer.remove();
+	    self.mask.remove();
+	    self.cover.remove();
             self.markedElements = {};
             self.marks = {};
             self.markCount = 0;

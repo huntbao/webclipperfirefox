@@ -55,7 +55,7 @@
                 initTaContainerHeight = parseInt(noteContentContainer.css('height'));
                 parent.postMessage({name: 'stopchangeheightfrommaikupopup'}, '*');
             }).mouseenter(function(){
-                parent.postMessage({name: 'hidemaskfrommaikupopup'}, '*');
+                communicationProxy.hideMask();
             });
             $('#dragger').mousedown(function(e){
                 mouseDowned = true;
@@ -158,7 +158,7 @@
             .attr('href', communicationProxy.clipper.baseUrl)
             .addClass('logined')
             .next().show().unbind('click').click(function(e){
-                chrome.extension.sendRequest({name: 'popuplogout'});
+                communicationProxy.clipper.logOut();
                 return false;
             });
             self.setCategories(userData, settings);

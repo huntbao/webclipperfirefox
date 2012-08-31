@@ -8,6 +8,7 @@
             self.initCookieStaff();
             self.initStringBundle();
             self.initContextMenu();
+            self.initBindEvent();
             self.jQuerySetUp();
         },
         initCookieStaff: function(){
@@ -41,6 +42,17 @@
             $('#contentAreaContextMenu').bind('popupshowing', function(){
                 self.initContextMenuShow();
             });
+        },
+        initBindEvent: function(){
+            var self = this;
+            gBrowser.addEventListener('DOMContentLoaded', function(){
+                //each web page load
+                $(content.document).keydown(function(e){
+                    if(e.ctrlKey && e.shiftKey && e.keyCode == 88/*x*/){
+                        self.clipper.newNote();
+                    }
+                });
+            }, false);
         },
         initContextMenuShow: function(){
             var self = this,

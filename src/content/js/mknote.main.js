@@ -3,8 +3,8 @@
 ;(function($){
     $.extend(MKNoteWebclipper, {
         loginCookieName: '.iNoteAuth',
-        baseUrl: 'http://notelocal.sdo.com',
-        iNoteAuthCookieHost: '.notelocal.sdo.com',
+        baseUrl: 'http://note.sdo.com',
+        iNoteAuthCookieHost: '.note.sdo.com',
         mkNoteWebclipperPopups: [],//store all popups, every tab can have a popup
         menuActionSwitcher: function(event, clipType){
             var self = this;
@@ -104,6 +104,10 @@
             }else{
                 callback && callback();
             }
+        },
+        logOut: function(){
+            var self = this;
+            content.openDialog(self.baseUrl + '/account/logout', '','chrome, popup, titlebar = no, right = -100, bottom = -100, width = 10, height = 10, resizable = no');
         },
         getUser: function(callback){
             var self = this;
