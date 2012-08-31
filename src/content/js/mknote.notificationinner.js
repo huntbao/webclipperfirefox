@@ -9,7 +9,7 @@
         },
         initContent: function(params){
             var self = this;
-            $('#title').html(params.i18n.getMessage('mknotewebclipper.name'));
+            $('#title').html(params.i18n.getMessage('ExtensionName'));
             var tip = $('#tip').html(params.message),
             checkCloseBtn = function(){
                 var closeBtn = $('#customclosebtn');

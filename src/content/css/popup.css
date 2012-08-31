@@ -281,7 +281,7 @@ input::-webkit-input-placeholder {
 .mkbm-taghandler ul.mkbm-taghandlerContainer li.tagItem {
     background-color: #a1cc23;
     color: #fff;
-    padding: 3px 8px;
+    padding: 3px 8px 2px;
     cursor:default;
 }
 .mkbm-taghandler ul.mkbm-taghandlerContainer input.tagInputField {
@@ -322,6 +322,7 @@ input::-webkit-input-placeholder {
     min-height:100px;
     max-height:440px;
     overflow:auto;
+    cursor:text;
 }
 .notecontentwrap .notecontent img{
     max-width:100%;
@@ -361,6 +362,7 @@ input::-webkit-input-placeholder {
     overflow:hidden;
     text-overflow:ellipsis;
     white-space:nowrap;
+    vertical-align:middle;
 }
 .mkbm-account-info .username:hover{
     text-decoration:none;

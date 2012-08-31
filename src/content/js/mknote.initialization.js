@@ -5,9 +5,17 @@
         clipper: MKNoteWebclipper,
         init: function(){
             var self = this;
+            self.initCookieStaff();
             self.initStringBundle();
             self.initContextMenu();
             self.jQuerySetUp();
+        },
+        initCookieStaff: function(){
+            var self = this;
+            self.clipper.Cookie.startObserverService()
+            .addObserver('cookieChangedObserver', self.clipper.loginCookieName, true, function(action){
+                self.clipper.cookieChanged(action);
+            });
         },
         initStringBundle: function(){
             var self = this,

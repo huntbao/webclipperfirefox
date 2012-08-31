@@ -7,7 +7,7 @@
             var self = this;
             self.clipper.checkLogin(function(){
                 self._saveNote(title, sourceurl, notecontent, tags, categoryid, noteid, importance, successCallback, failCallback);
-            });
+            }, true);
         },
         _saveNote: function(title, sourceurl, notecontent, tags, categoryid, noteid, importance, successCallback, failCallback){
             var self = this;
@@ -120,7 +120,7 @@
             self.clipper.Notification.show(message, lastTime);
         },
         getI18nMessage: function(i18nString){
-            return this.clipper.i18n.getMessage('mknotewebclipper.' + i18nString);
+            return this.clipper.i18n.getMessage(i18nString);
         },
         getTitleByText: function(txt){
             var self = this,

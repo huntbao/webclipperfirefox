@@ -2,23 +2,35 @@
 //All right reserved
 (function($){
     var maikuNotePopup = {
-        init: function(proxy){
+        init: function(){
             var self = this;
-	    proxy.showWin();
-	    self.addEvents(proxy);
-	    self.initAddNode(proxy);
-	    proxy.createInspector();
+	    communicationProxy.showWin();
+	    self.addEvents();
+	    self.initAddNode();
 	    //self.initExtensionRequest();
-	    //self.initCategories();
-	    //self.initTags();
-	    //self.getUser();
+	    self.initCategories();
+	    self.initTags();
+	    communicationProxy.getUser(function(data){
+		if(data.user){
+		    self.userloginedHandler(data.user, data.settings);
+		}else{
+		    self.userlogoutedHandler();
+		}
+		communicationProxy.createInspector(data.settings.autoExtractContent);
+		if(data.settings.autoExtractContent == false){
+		    self.autoExtractContent.removeClass('mkbm-enable').addClass('mkbm-disabled').attr('title', communicationProxy.clipper.i18n.getMessage('AutoExtractContentDisabled'));
+		}
+	    });
+	    communicationProxy.updateUserInfo = function(data){
+		if(data && data.user){
+		    self.userloginedHandler(data.user, data.settings);
+		}else{
+		    self.userlogoutedHandler();
+		}
+	    }
         },
-        addEvents: function(proxy){
+        addEvents: function(){
             var self = this;
-            $('#optionbtn').click(function(e){
-                chrome.extension.sendRequest({name: 'createoptionstab'});
-                return false;
-            });
             self.title = $('#titleinp');
             var mouseDowned,
             startPageY,
@@ -52,16 +64,16 @@
                 startPageY = e.pageY;
             });
             $('#closebtn').click(function(e){
-		proxy.closeWin();
+		communicationProxy.closeWin();
                 return false;
             });
 	    $('#resetbtn').click(function(e){
 		noteContent.html('').focus();
 		self.title.val('');
-		parent.postMessage({name: 'resetfrommaikupopup'}, '*');
-			});
-			self.saveNote = function(){
-				if(self.isLogin){
+		communicationProxy.reset();
+	    });
+	    self.saveNote = function(){
+		if(self.isLogin){
 		    noteContent.find('div[mkclip=true]').removeAttr('id').removeAttr('mkclip');
 		    parent.postMessage({
 			name: 'savenotefrommaikupopup',
@@ -101,9 +113,7 @@
                         parent.postMessage({name: 'gobottomfrommaikupopup'}, '*');
                         t.data('panel-position', 'bottom').find('.mkbm-util-icon').addClass('mkbm-down');
                     }
-                }else if(t.is('.mkbm-refresh-info')){
-		    self.getUser(true);
-		}
+                }
             });
             self.noteContent = noteContent;
         },
@@ -114,55 +124,38 @@
 	initExtensionRequest: function(){
 	    var self = this;
 	    chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
-		if(!sender || sender.id !== chrome.i18n.getMessage("@@extension_id")) return;
-		    switch(request.name){
-			case 'getuser':
-			    //first open popup, get user status
-			    self.getuserHandlerRequest(request.user, request.settings, request.refresh);
-			    break;
-			case 'userlogined':
-			    //user click the bottom left btn to login
-			    self.userloginedHandlerRequest(request.user, request.settings);
-			    break;
-			case 'userlogouted':
-			    //user click the bottom left btn to logout
-			    self.userlogoutedHandlerRequest();
-			    break;
-			case 'clicksavebtnafteruserloginedpopup':
-			    //user is not login and click save button, now callback method is called and user has logined
-			    self.userloginedHandlerRequest(request.user, request.settings);
-			    self.saveNote();
-			    break;
-			case 'actionfrompopupinspecotr':
-			self.actionfrompopupinspecotrHandler(request.data);
-			    break;
-			default:
-			    break;
-		    }
-		});
-	    },
-	    getuserHandlerRequest:function(user, settings, refresh){
-            var self = this;
-	    if(user){
-                self.userloginedHandlerRequest(user, settings);
-            }else{
-                self.userlogoutedHandlerRequest();
-            }
-            if(refresh) return;//user refresh infomation, no need to create inspector again
-            self.createInspector(settings.autoExtractContent);
-            if(settings.autoExtractContent == false){
-                self.autoExtractContent.removeClass('mkbm-enable').addClass('mkbm-disabled').attr('title', chrome.i18n.getMessage('AutoExtractContentDisabled'));
-            }
+	    if(!sender || sender.id !== chrome.i18n.getMessage("@@extension_id")) return;
+		switch(request.name){
+		    case 'getuser':
+			//first open popup, get user status
+			self.getuserHandlerRequest(request.user, request.settings, request.refresh);
+			break;
+		    case 'userlogined':
+			//user click the bottom left btn to login
+			self.userloginedHandlerRequest(request.user, request.settings);
+			break;
+		    case 'userlogouted':
+			//user click the bottom left btn to logout
+			self.userlogoutedHandlerRequest();
+			break;
+		    case 'clicksavebtnafteruserloginedpopup':
+			//user is not login and click save button, now callback method is called and user has logined
+			self.userloginedHandlerRequest(request.user, request.settings);
+			self.saveNote();
+			break;
+		    case 'actionfrompopupinspecotr':
+		    self.actionfrompopupinspecotrHandler(request.data);
+			break;
+		    default:
+			break;
+		}
+	    });
 	},
-        createInspector: function(autoExtractContent){
-            var self = this;
-            parent.postMessage({name: 'createinspectorfrommaikupopup', autoExtractContent: autoExtractContent}, '*');
-        },
-        userloginedHandlerRequest: function(userData, settings){
+        userloginedHandler: function(userData, settings){
             var self = this;
             $('#username').html(userData.user.NickName)
-            .attr('title', chrome.i18n.getMessage('LoginMaiku'))
-            .attr('href', chrome.i18n.getMessage('baseUrl'))
+            .attr('title', communicationProxy.clipper.i18n.getMessage('LoginMaiku'))
+            .attr('href', communicationProxy.clipper.baseUrl)
             .addClass('logined')
             .next().show().unbind('click').click(function(e){
                 chrome.extension.sendRequest({name: 'popuplogout'});
@@ -171,14 +164,16 @@
             self.setCategories(userData, settings);
             self.isLogin = true;
         },
-        userlogoutedHandlerRequest: function(){
+        userlogoutedHandler: function(){
             var self = this;
 	    self.clearCategories();
-            $('#username').html(chrome.i18n.getMessage('NotLoginMaiku'))
-            .attr('title', chrome.i18n.getMessage('NotLoginMaikuTip'))
+            $('#username').html(communicationProxy.clipper.i18n.getMessage('NotLoginMaiku'))
+            .attr('title', communicationProxy.clipper.i18n.getMessage('NotLoginMaikuTip'))
             .removeClass('logined')
             .unbind('click').click(function(e){
-                chrome.extension.sendRequest({name: 'popuplogin'});
+                communicationProxy.clipper.checkLogin(function(data){
+		    self.userloginedHandler(data.user, data.settins);
+		});
                 return false;
             }).next().hide();
             self.isLogin = false;
@@ -211,8 +206,8 @@
 	    publicCategories = userData.categories.pub,
 	    defaultCategory = settings.defaultCategory,
 	    foundCategory = '',
-	    displayName = '默认分类',
-	    tStr = '<li class="mkbm-category-title">私人分类</li>',
+	    displayName = communicationProxy.clipper.i18n.getMessage('DefaultCatecory'),
+	    tStr = '<li class="mkbm-category-title">' + communicationProxy.clipper.i18n.getMessage('PrivateCatecory') + '</li>',
             genStrByCates = function(cates){
                 for(var i = 0, l = cates.length, cate; i < l; i++){
                     cate = cates[i];
@@ -228,7 +223,7 @@
                 }
             }
             genStrByCates(privateCategories);
-            tStr += '<li class="mkbm-category-title">公开分类</li>';
+            tStr += '<li class="mkbm-category-title">' + communicationProxy.clipper.i18n.getMessage('PublicCatecory') + '</li>';
             genStrByCates(publicCategories);
             self.dropList.html(tStr);
 	    self.displayNameWrap.attr('title', '');
@@ -237,13 +232,13 @@
 	clearCategories: function(){
 	    var self = this;
 	    self.dropList.html('');
-	    self.displayName.html('默认分类');
+	    self.displayName.html(communicationProxy.clipper.i18n.getMessage('DefaultCatecory'));
 	    self.displayNameWrap.attr('title', self.displayNameWrap.data('title'));
 	},
         initTags: function(){
             var self = this,
             tags = self.mkbmExtra.find('.mkbm-tags'),
-			tagHandlerEl = tags.find('.mkbm-tagHandler-init'),
+	    tagHandlerEl = tags.find('.mkbm-tagHandler-init'),
             tagsShowTimeout;
             tagHandlerEl.tagHandler({
                 className: 'mkbm-taghandler',
@@ -276,16 +271,12 @@
             });
 	    self.tagHandlerEl = tagHandlerEl;
         },
-	getUser: function(refresh){
-	    //send request to backgroun page
-	    chrome.extension.sendRequest({name: 'getuser', refresh: refresh});
-	},
-	initAddNode: function(proxy){
+	initAddNode: function(){
 	    var self = this;
-	    proxy.addNode = function(data){
+	    communicationProxy.addNode = function(data){
 		if(data.add){
 		    //add content
-		    self.addNode($('<div mkclip="true" id="' + data.uid + '"></div>').append(data.content));
+		    self.addNode($('<div mkclip="true" id="' + data.uid + '"></div>').append(data.noteContent));
 		    if(data.title){
 			//for auto extract content
 			self.title.val(data.title);
@@ -303,7 +294,7 @@
         timer = setInterval(function(){
             if(window.communicationProxy){
                 clearInterval(timer);
-		maikuNotePopup.init(window.communicationProxy);
+		maikuNotePopup.init();
             }else if(startTime + timeout < new Date().getTime()){
                 clearInterval(timer);
             }

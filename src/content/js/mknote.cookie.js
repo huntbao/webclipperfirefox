@@ -2,6 +2,7 @@
 //All right reserved
 MKNoteWebclipper.Cookie = {
     clipper: MKNoteWebclipper,
+    observers: {},
     get: function(url, name, host){
         var self = this;
         try{
@@ -13,7 +14,7 @@ MKNoteWebclipper.Cookie = {
                 }
             }
         }catch(e){
-            self.clipper.Util.debug('Cookie get failed: url = ' + url + ', name = ' + name + ', error = ' + e );
+            self.clipper.Util.log('Cookie get failed: url = ' + url + ', name = ' + name + ', error = ' + e );
         }
         return null;
     },
@@ -28,26 +29,36 @@ MKNoteWebclipper.Cookie = {
            return;
         }
         if(topic == 'cookie-changed'){
-            if(subject.name == self.observeCookieName){
-                self.removeObserverService();
-                self.observeCallback && self.observeCallback();
-                self.observeCookieName = null;
-                self.observeCallback = null;
+            for(var ob in self.observers){
+                if(subject.name == self.observers[ob].cookieName){
+                    self.observers[ob].callback && self.observers[ob].callback(data);
+                    if(!self.observers[ob].always){
+                        delete self.observers[ob];
+                    }
+                }
             }
         }
     },
-    getObserverService: function(observeCookieName, observeCallback){
+    startObserverService: function(){
         var self = this;
-        self.observeCookieName = observeCookieName;
-        self.observeCallback = observeCallback;
-        self.observerService = Components.classes['@mozilla.org/observer-service;1'].getService(Components.interfaces.nsIObserverService);
         self.observerService.addObserver(self, 'cookie-changed', false);
+        return self;
+    },
+    addObserver: function(observerName, observerCookieName, always, observeCallback){
+        var self = this;
+        self.observers[observerName] = {
+            cookieName: observerCookieName,
+            callback: observeCallback,
+            always: always
+        }
+        return self;
     },
     removeObserverService: function(){
         var self = this;
         if(self.observerService){
             self.observerService.removeObserver(self, 'cookie-changed');
         }
+        return self;
     },
     getIOService: function(){
         var self = this;
@@ -62,7 +73,15 @@ MKNoteWebclipper.Cookie = {
             self._cookieManagerSrv = Components.classes['@mozilla.org/cookiemanager;1'].getService(Components.interfaces.nsICookieManager);
         }
         return self._cookieManagerSrv;
+    },
+    getObserverService: function(){
+        var self = this;
+        if(!self._observerService){
+            self._observerService = Components.classes['@mozilla.org/observer-service;1'].getService(Components.interfaces.nsIObserverService);
+        }
+        return self._observerService;
     }
 };
 MKNoteWebclipper.Cookie.__defineGetter__('ioService', MKNoteWebclipper.Cookie.getIOService);
 MKNoteWebclipper.Cookie.__defineGetter__('cookieManagerService', MKNoteWebclipper.Cookie.getCookieManagerService);
+MKNoteWebclipper.Cookie.__defineGetter__('observerService', MKNoteWebclipper.Cookie.getObserverService);

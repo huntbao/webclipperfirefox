@@ -2,23 +2,33 @@
 //All right reserved
 ;(function($){
     MKNoteWebclipper.Popup = {
-        clipper: MKNoteWebclipper,
         init: function(){
-            var self = this;
-            self.popupInstance = content.currentMaikuWebclipperPopup.instance;
-            self.iframe = window.frames[0];
-            self.iframe.communicationProxy = {
+            var self = this,
+            popupInstance = content.currentMaikuWebclipperPopup.instance;
+            content.maikuWebclipperPopupIframe = window.frames[0];
+            content.maikuWebclipperPopupIframe.communicationProxy = {
+		clipper: content.currentMaikuWebclipperPopup.clipper,
                 closeWin: function(){
-                    content.currentMaikuWebclipperPopup = null;
-                    self.popupInstance.remove();
+		    this.clipper.deletePopup(content.currentMaikuWebclipperPopup);
+                    popupInstance.remove();
+		    self.removeInspector();
                 },
-                createInspector: function(){
-                    self._createInspector();
+                createInspector: function(autoExtractContent){
+                    self._createInspector(autoExtractContent);
                 },
 		showWin: function(){
-		    self.popupInstance.show();
+		    popupInstance.show();
+		},
+		reset: function(){
+		    self.clearMarks();
+		},
+		getUser: function(callback){
+		    this.clipper.getUser(callback);
 		},
 		addNode: function(){
+		    //override by iframe
+		},
+		updateUserInfo: function(){
 		    //override by iframe
 		}
             }
@@ -84,7 +94,8 @@
                 'z-index': popupZIndex - 1,
                 background: 'transparent'
             }).append(markInner).append(markExpandor).append(markClose);
-            self.markContainer = $('<div mkclip="true"></div>', body).appendTo(body).append(self.cover).append(self.mask);
+	    body.append(self.cover).append(self.mask);
+            self.markContainer = $('<div mkclip="true"></div>', body).appendTo(body);
             self.markedElements = {};//save all marked page element
             self.marks = {};//save all marks
             self.markCount = 0;
@@ -144,7 +155,6 @@
             target = self.elementFromPoint(e),
             isIgnore = false;
             if(target.is('iframe, frame')){
-                self.clipper.Util.log("cannot save iframe's content");
                 return false;
             }
             if(target.is('body, html')){
@@ -188,7 +198,7 @@
         },
         clearMarks: function(){
             var self = this;
-            self.markContainer.html('').append(self.cover).append(self.mask);
+            self.markContainer.html('');
             self.markedElements = {};
             self.marks = {};
             self.markCount = 0;
@@ -445,12 +455,12 @@
             var res = ex.extract(doc);
             return res;
         },
-        sendContentToPopup: function(uid, content, add, title){
+        sendContentToPopup: function(uid, noteContent, add, title){
 	    var self = this;
-            if(add && !content) return;//add blank node, return;
-	    self.iframe.communicationProxy.addNode({
+            if(add && !noteContent) return;//add blank node, return;
+	    content.maikuWebclipperPopupIframe.communicationProxy.addNode({
 		uid: uid,
-                content: content,
+                noteContent: noteContent,
                 add: add,
                 title: title
 	    });
