@@ -8,7 +8,6 @@
 	    communicationProxy.showWin();
 	    self.addEvents();
 	    self.initAddNode();
-	    //self.initExtensionRequest();
 	    self.initCategories();
 	    self.initTags();
 	    communicationProxy.getUser(function(data){
@@ -70,20 +69,13 @@
 		communicationProxy.reset();
 	    });
 	    self.saveNote = function(){
-		if(self.isLogin){
-		    noteContent.find('div[mkclip=true]').removeAttr('id').removeAttr('mkclip');
-		    parent.postMessage({
-			name: 'savenotefrommaikupopup',
-			notedata: {
-			    notecontent: noteContent.html(),
-			    categoryid: self.displayName.data('cateid'),
-			    tags: self.tagHandlerEl.tagHandler('getTags').join(','),
-			    title: self.title.val() || noteContent.text().trim()
-			}
-		    }, '*');
-		}else{
-		    chrome.extension.sendRequest({name: 'clicksavebtnwithoutloginpopup'});
-		}
+		noteContent.find('div[mkclip=true]').removeAttr('id').removeAttr('mkclip');
+		communicationProxy.saveNote({
+		    notecontent: noteContent.html(),
+		    categoryid: self.displayName.data('cateid'),
+		    tags: self.tagHandlerEl.tagHandler('getTags').join(','),
+		    title: self.title.val() || noteContent.text().trim()
+		});
 	    }
             $('#savebtn').click(function(e){
                 self.saveNote();
@@ -118,36 +110,6 @@
             var self = this;
             self.noteContent.append(node).scrollTop(self.noteContent.prop('scrollHeight'));
         },
-	initExtensionRequest: function(){
-	    var self = this;
-	    chrome.extension.onRequest.addListener(function(request, sender, sendResponse){
-	    if(!sender || sender.id !== chrome.i18n.getMessage("@@extension_id")) return;
-		switch(request.name){
-		    case 'getuser':
-			//first open popup, get user status
-			self.getuserHandlerRequest(request.user, request.settings, request.refresh);
-			break;
-		    case 'userlogined':
-			//user click the bottom left btn to login
-			self.userloginedHandlerRequest(request.user, request.settings);
-			break;
-		    case 'userlogouted':
-			//user click the bottom left btn to logout
-			self.userlogoutedHandlerRequest();
-			break;
-		    case 'clicksavebtnafteruserloginedpopup':
-			//user is not login and click save button, now callback method is called and user has logined
-			self.userloginedHandlerRequest(request.user, request.settings);
-			self.saveNote();
-			break;
-		    case 'actionfrompopupinspecotr':
-		    self.actionfrompopupinspecotrHandler(request.data);
-			break;
-		    default:
-			break;
-		}
-	    });
-	},
         userloginedHandler: function(userData, settings){
             var self = this;
             $('#username').html(userData.user.NickName)

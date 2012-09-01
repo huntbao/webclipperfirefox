@@ -5,8 +5,8 @@
         clipper: MKNoteWebclipper, 
         show: function(message, lastTime){
             var self = this;
+            clearTimeout(self.notificationTimer);
             if(self._dialog){
-                clearTimeout(self.notificationTimer);
                 self._dialogData.changeMessage(message);
             }else{
                 self._dialogData = {

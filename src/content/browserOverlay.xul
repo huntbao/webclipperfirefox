@@ -15,6 +15,7 @@
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.note.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.notification.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.popup.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.settings.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.initialization.js" />
 
   <stringbundleset id="stringbundleset">

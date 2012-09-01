@@ -13,9 +13,6 @@ body{
     -moz-user-select: none;
     user-select:none;
 }
-input[placeholder], [placeholder], *[placeholder]{
-    color: #bbb !important;
-}
 .content{
     width: 438px;
     margin:8px 0 0 8px;

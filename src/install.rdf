@@ -5,15 +5,16 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>webclipper@mknote.com</em:id>
-    <em:name>Maiku Web Clipper</em:name>
-    <em:description>Maiku Web Clipper For Firefox</em:description>
+    <em:name>MaiKu Web Clipper</em:name>
+    <em:description>Click a toolbar icon and contextmenus to collect information easily to mknote.com</em:description>
     <em:version>2.0</em:version>
     <em:creator>@mknote</em:creator>
-    <em:contributor>@HuntBao</em:contributor>
+    <em:developer>@HuntBao</em:developer>
     <em:homepageURL>http://www.mknote.com</em:homepageURL>
+    <em:iconURL>chrome://mknotewebclipper/content/images/icons/48x48.png</em:iconURL>
+    <em:optionsURL>chrome://mknotewebclipper/content/options.xul</em:optionsURL>
     <em:type>2</em:type>
     <em:unpack>true</em:unpack>
-
     <!-- Mozilla Firefox -->
     <em:targetApplication>
       <Description>

@@ -13,6 +13,7 @@
             var self = this;
             if(!title && !notecontent){
                 self.notifyHTML('CannotSaveBlankNote');
+                failCallback && failCallback();
                 return;
             }
             var dataObj = {

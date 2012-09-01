@@ -13,6 +13,7 @@
             },
 	    deskTopPopup = $('#deskpop-popup');
             content.maikuWebclipperPopupIframe = window.frames[0];
+	    //these methods below will be called from popup
             content.maikuWebclipperPopupIframe.communicationProxy = {
 		clipper: content.currentMaikuWebclipperPopup.clipper,
                 closeWin: function(){
@@ -57,6 +58,30 @@
 		localize: function(el){
 		    this.clipper.i18n.localizeElement(el);
 		},
+		saveNote: function(noteData){
+		    popupInstance.hide();
+		    self.removeInspector();
+		    let t = this;
+		    t.clipper.Note.saveNote(
+			noteData.title,
+			content.location.href,
+			noteData.notecontent,
+			noteData.tags,
+			noteData.categoryid,
+			'',
+			'',
+			function(){
+			    //save note success, remove staffs
+			    t.clipper.deletePopup(content.currentMaikuWebclipperPopup);
+			    $(content.document).unbind('keydown.maikuclipperpopup');
+			    popupInstance.remove();
+			},
+			function(){
+			    //save note failed, show popup again
+			    popupInstance.show(); 
+			}
+		    );
+		},
 		addNode: function(){
 		    //override by iframe
 		},
@@ -100,7 +125,7 @@
                 'z-index': popupZIndex - 1,
                 background: 'transparent'
             });
-            var backgroundImageSrc = 'chrome://mknotewebclipper/content/css/images/sprite.png',
+            var backgroundImageSrc = 'resource://mknotewebclipperimages/sprite.png',
             markInner = $('<div mkclip="true"></div>', body).css({
                 background: 'rgba(204, 255, 204, 0.5)',
                 height: '100%',
@@ -445,11 +470,11 @@
 	    'clear': 'none',
 	    'color': 'rgb(0, 0, 0)',
 	    'cursor': 'auto',
-	    'display': 'block',
-	    'cssFloat': 'none',
+	    'display': '',
+	    'cssFloat': '',
 	    'fontFamily': '',
 	    'fontSize': '',
-	    'fontStyle': 'normal',
+	    'fontStyle': '',
 	    'fontWeight': '400',
 	    'height': '',
 	    'left': 'auto',

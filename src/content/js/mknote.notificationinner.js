@@ -17,7 +17,7 @@
                     closeBtn.mouseup(function(){
                         setTimeout(function(){
                             params.desktopNotification.close();
-                        }, 10);
+                        }, 50);
                     });
                 }
             }

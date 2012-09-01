@@ -26,22 +26,28 @@
             self.localizePlaceholderMessages(el);
         },
         localizeMessages: function(el){
-            var self = this;
-            el.find('.message').each(function(idx, ele){
+            var self = this,
+            els = el.find('.message');
+            els.each(function(idx, ele){
                 $(this).html(self.getMessage($(this).attr('messagekey')));
             });
+            els.removeAttr('messagekey').removeClass('message');
         },
         localizeTitleMessages: function(el){
-            var self = this;
-            el.find('.message-title').each(function(idx, ele){
+            var self = this,
+            els = el.find('.message-title');
+            els.each(function(idx, ele){
                 $(this).attr('title', self.getMessage($(this).attr('messagetitlekey')));
             });
+            els.removeAttr('messagetitlekey').removeClass('message-title');
         },
         localizePlaceholderMessages: function(el){
-            var self = this;
-            el.find('.message-placeholder').each(function(idx, ele){
-                $(this).attr('placeholder', self.getMessage($(this).attr('messageplaceholderkey')));
+            var self = this,
+            els = el.find('.message-placeholder');
+            els.each(function(idx, ele){
+                $(this).attr('placeholder', self.getMessage($(this).attr('messageplaceholderkey'))).removeAttr('messageplaceholderkey');
             });
+            els.removeAttr('messageplaceholderkey').removeClass('message-placeholder');
         }
     }
 })(MKNoteWebclipper.jQuery);

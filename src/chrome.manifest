@@ -1,5 +1,5 @@
 content   mknotewebclipper         content/ 
-content   mknotewebclipper         content/ contentaccessible=yes
 locale    mknotewebclipper  zh-CN  locale/zh-CN/
+resource  mknotewebclipperimages   content/css/images/
 
 overlay chrome://browser/content/browser.xul  chrome://mknotewebclipper/content/browserOverlay.xul
