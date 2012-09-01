@@ -4,6 +4,7 @@
     var maikuNotePopup = {
         init: function(){
             var self = this;
+	    communicationProxy.localize(document.body);
 	    communicationProxy.showWin();
 	    self.addEvents();
 	    self.initAddNode();
@@ -35,29 +36,25 @@
             var mouseDowned,
             startPageY,
             noteContent = $('#notecontent'),
-            noteContentContainer = $('#notecontentwrap'),
             body = $('body'),
             initTaHeight = parseInt(noteContent.css('height')),
-            initTaContainerHeight = parseInt(noteContentContainer.css('height')),
             changeStep;
             $(document).mousemove(function(e){
 		if(mouseDowned){
 		    changeStep = e.pageY - startPageY;
 		    noteContent.css('height', initTaHeight + changeStep);
-		    noteContentContainer.css('height', initTaContainerHeight + changeStep);
-		    parent.postMessage({name: 'changeheightfrommaikupopup', param: changeStep}, '*');
+		    communicationProxy.changeIframeHeight(changeStep);
 		}
             }).bind('mouseup', function(e){
                 mouseDowned = false;
                 body.removeClass('not-selectable');
                 noteContent.removeClass('not-selectable');
                 initTaHeight = parseInt(noteContent.css('height'));
-                initTaContainerHeight = parseInt(noteContentContainer.css('height'));
-                parent.postMessage({name: 'stopchangeheightfrommaikupopup'}, '*');
+		communicationProxy.changeIframeHeight(false);
             }).mouseenter(function(){
                 communicationProxy.hideMask();
             });
-            $('#dragger').mousedown(function(e){
+            $('#resizer').mousedown(function(e){
                 mouseDowned = true;
                 body.addClass('not-selectable');
                 noteContent.addClass('not-selectable');
@@ -97,21 +94,21 @@
                 var t = $(this);
                 if(t.is('.mkbm-auto-extract')){
 		    if(self.autoExtractContent.is('.mkbm-enable')){
-                        self.autoExtractContent.removeClass('mkbm-enable').addClass('mkbm-disabled').attr('title', chrome.i18n.getMessage('AutoExtractContentDisabled'));
+                        self.autoExtractContent.removeClass('mkbm-enable').addClass('mkbm-disabled').attr('title', communicationProxy.clipper.i18n.getMessage('AutoExtractContentDisabled'));
                         parent.postMessage({name: 'disablemouseselectfrommaikupopup'}, '*');
                         chrome.extension.sendRequest({name: 'setautoextract', value: false});
                     }else{
-                        self.autoExtractContent.removeClass('mkbm-disabled').addClass('mkbm-enable').attr('title', chrome.i18n.getMessage('AutoExtractContentEnabled'));
+                        self.autoExtractContent.removeClass('mkbm-disabled').addClass('mkbm-enable').attr('title', communicationProxy.clipper.i18n.getMessage('AutoExtractContentEnabled'));
                         parent.postMessage({name: 'enablemouseselectfrommaikupopup'}, '*');
                         chrome.extension.sendRequest({name: 'setautoextract', value: true});
                     }
                 }else if(t.is('.mkbm-panel-position')){
                     if(t.data('panel-position') == 'bottom'){
-                        parent.postMessage({name: 'gotopfrommaikupopup'}, '*');
-                        t.data('panel-position', 'top').find('.mkbm-util-icon').removeClass('mkbm-down');
+			communicationProxy.positionTop();
+                        t.data('panel-position', 'top').find('.mkbm-util-icon').removeClass('mkbm-down').attr('title', communicationProxy.clipper.i18n.getMessage('GoBottom'));
                     }else{
-                        parent.postMessage({name: 'gobottomfrommaikupopup'}, '*');
-                        t.data('panel-position', 'bottom').find('.mkbm-util-icon').addClass('mkbm-down');
+			communicationProxy.positionBottom();
+                        t.data('panel-position', 'bottom').find('.mkbm-util-icon').addClass('mkbm-down').attr('title', communicationProxy.clipper.i18n.getMessage('GoTop'));
                     }
                 }
             });

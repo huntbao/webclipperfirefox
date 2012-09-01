@@ -4,7 +4,14 @@
     MKNoteWebclipper.Popup = {
         init: function(){
             var self = this,
-            popupInstance = content.currentMaikuWebclipperPopup.instance;
+            popupInstance = content.currentMaikuWebclipperPopup.instance,
+	    initDivHeight = parseInt(popupInstance.css('height')),
+	    judgeHeight = function(h){
+                if(h < 304) return 304;
+                if(h > 624) return 624;
+                return h;
+            },
+	    deskTopPopup = $('#deskpop-popup');
             content.maikuWebclipperPopupIframe = window.frames[0];
             content.maikuWebclipperPopupIframe.communicationProxy = {
 		clipper: content.currentMaikuWebclipperPopup.clipper,
@@ -25,6 +32,30 @@
 		},
 		getUser: function(callback){
 		    this.clipper.getUser(callback);
+		},
+		changeIframeHeight: function(changeStep){
+		    if(changeStep == false){
+			//stop change height, mouseup on resizer
+			initDivHeight = parseInt(popupInstance.css('height'));
+		    }else{
+			popupInstance.css('height', judgeHeight(initDivHeight + changeStep));
+			deskTopPopup.css('height', judgeHeight(initDivHeight + changeStep));
+		    }
+		},
+		positionTop: function(){
+		    popupInstance.css({
+			top: 8,
+			bottom: 'auto'
+		    });
+		},
+		positionBottom: function(){
+		    popupInstance.css({
+			top: 'auto',
+			bottom: 8
+		    });
+		},
+		localize: function(el){
+		    this.clipper.i18n.localizeElement(el);
 		},
 		addNode: function(){
 		    //override by iframe

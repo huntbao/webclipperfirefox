@@ -67,7 +67,7 @@
             if(content.currentMaikuWebclipperPopup) return;
             var self = this,
             popupInstance = $('<div mkclip="true" style="position:fixed;right:8px;top:8px;width:450px;height:450px;\
-            min-height:304px;max-height:644px;z-index:;border-radius:3px;box-shadow:0 0 5px 0 #333;overflow:hidden;z-index:20120830"></div>', content.document)
+            min-height:304px;max-height:524px;z-index:;border-radius:3px;box-shadow:0 0 5px 0 #333;overflow:hidden;z-index:20120830"></div>', content.document)
                 .hide()
                 .appendTo(content.document.body),
             iframe = $('<iframe frameborder="0" style="width:100%;height:100%;"></iframe>', content.document).appendTo(popupInstance),
@@ -76,10 +76,7 @@
             content.currentMaikuWebclipperPopup = {
                 clipper: self,
                 instance: popupInstance,
-                popupContext: content,
-                updateUserInfo: function(){
-                    //override by corresponding popup
-                }
+                popupContext: content
             }
             self.mkNoteWebclipperPopups.push(content.currentMaikuWebclipperPopup);
         },
@@ -107,7 +104,7 @@
         },
         logOut: function(){
             var self = this;
-            content.openDialog(self.baseUrl + '/account/logout', '','chrome, popup, titlebar = no, right = -100, bottom = -100, width = 10, height = 10, resizable = no');
+            $.get(self.baseUrl + '/account/logout');
         },
         getUser: function(callback){
             var self = this;
@@ -164,7 +161,7 @@
             }else if(action == 'deleted'){
                 //user logout
                 self.userData = null;
-                self.updateAllPopups(null);
+                self.updateAllPopups(null); 
             }
         },
         updateAllPopups: function(data){
