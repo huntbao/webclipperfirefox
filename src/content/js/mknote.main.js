@@ -3,8 +3,8 @@
 ;(function($){
     $.extend(MKNoteWebclipper, {
         loginCookieName: '.iNoteAuth',
-        baseUrl: 'http://note.sdo.com',
-        iNoteAuthCookieHost: '.note.sdo.com',
+        baseUrl: 'http://notelocal.sdo.com',
+        iNoteAuthCookieHost: '.notelocal.sdo.com',
         mkNoteWebclipperPopups: [],//store all popups, every tab can have a popup
         menuActionSwitcher: function(event, clipType){
             var self = this;
@@ -38,7 +38,7 @@
                     self.newNote();
                     break;
                 case 'serializeimage':
-                    self.serializeImage();
+                    self.serializeImage(event.target.getAttribute('checked'));
                     break;
                 default:
                     break;
@@ -62,6 +62,10 @@
         newNote: function(){
             var self = this;
             self.createPopup();
+        },
+        serializeImage: function(checked){
+            var self = this;
+            self.options.serializeImg = checked;
         },
         createPopup: function(){
             if(content.currentMaikuWebclipperPopup) return;
@@ -143,11 +147,12 @@
             }    
         },
         getSettings: function(){
-            var self = this;
+            var self = this,
+            options = self.options;
             self.settings = {
-                serializeImg: true,
-                defaultCategory: '',
-                autoExtractContent: true
+                serializeImg: options.serializeImg,
+                defaultCategory: options.defaultCategory,
+                autoExtractContent: options.autoExtractContent
             }
             return self.settings;
         },

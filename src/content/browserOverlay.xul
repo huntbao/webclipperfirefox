@@ -10,6 +10,7 @@
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.jquery.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.main.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.util.js" />
+  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.filemanager.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.cookie.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.i18n.js" />
   <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.note.js" />
@@ -68,7 +69,7 @@
           label="&mknotewebclipper.menu.newnote;"
           oncommand="MKNoteWebclipper.menuActionSwitcher(event, 'newnote');" />
         <menuseparator id="mknotewebclipper-contextmenu-sep-sub3"/>
-        <menuitem id="mknotewebclipper-menu-serializeimage" type="checkbox" checked="true"
+        <menuitem id="mknotewebclipper-contextmenu-serializeimage" type="checkbox" checked="true"
           label="&mknotewebclipper.menu.serializeimage;"
           oncommand="MKNoteWebclipper.menuActionSwitcher(event, 'serializeimage');" />
       </menupopup>

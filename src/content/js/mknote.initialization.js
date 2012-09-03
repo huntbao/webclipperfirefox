@@ -10,6 +10,8 @@
             self.initContextMenu();
             self.initBindEvent();
             self.jQuerySetUp();
+            self.clipper.options.readOptionsFile();
+            self.addOptionsFileChangeObserver();
         },
         initCookieStaff: function(){
             var self = this;
@@ -47,7 +49,7 @@
             var self = this;
             gBrowser.addEventListener('DOMContentLoaded', function(){
                 //each web page load
-                $(content.document).keydown(function(e){
+                $(content.document).unbind('keydown.maikuwebclipper').bind('keydown.maikuwebclipper', function(e){
                     if(e.ctrlKey && e.shiftKey && e.keyCode == 88/*x*/){
                         self.clipper.newNote();
                     }
@@ -76,6 +78,7 @@
                 menus.url.show();
                 menus.subseperator1.show();
             }
+            menus.serializeimage[0].setAttribute('checked', self.clipper.options.settings.serializeImg);
         },
         jQuerySetUp:function(){
             $.ajaxSetup({
@@ -86,8 +89,33 @@
                     return data.success ? data.data : {error: data.error};
                 }
             });
+        },
+        addOptionsFileChangeObserver: function(){
+            var self = this;
+            //custom notificaion field, called when options file is changed, see mknote.settings.js for details
+            self.observer.addObserver(self, 'options-file-changed', false);
+        },
+        observe: function(subject, topic, data){
+            var self = this;
+            if(topic == 'options-file-changed'){
+                try{
+                    self.clipper.options.settings = JSON.parse(data);
+                }catch(e){
+                    //todo
+                }
+            }
+        },
+        getObserver: function(){
+            var self = this;
+	    if(!self._observer){
+		self._observer = Components.classes['@mozilla.org/observer-service;1'].getService(Components.interfaces.nsIObserverService);
+	    }
+	    return self._observer;
         }
     }
+    
+    MKNoteWebclipperInit.__defineGetter__('observer', MKNoteWebclipperInit.getObserver);
+    
     $(window).bind('load', function(){
         MKNoteWebclipperInit.init();
     });

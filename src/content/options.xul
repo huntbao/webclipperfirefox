@@ -16,6 +16,8 @@
         <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.jquery.js"></script>
         <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.i18n.js"></script>
         <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.util.js"></script>
+        <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.filemanager.js"></script>
+        <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.settings.js"></script>
         <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.options.js"></script>
     </prefpane>
 </prefwindow>

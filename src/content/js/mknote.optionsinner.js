@@ -4,26 +4,28 @@
     window.maikuNoteSettings = {
         init: function(){
             var self = this,
-            maikuNoteOptions = window.maikuNoteOptions;
-	    communicationProxy.clipper.Util.log(maikuNoteOptions)
+            options = window.communicationProxy.options,
+	    i18n = window.communicationProxy.clipper.i18n;
+	    i18n.localizeElement(document.body);
+	    document.title = i18n.getMessage('OptionsPageTitle');
             self.retrieveRemoteImageOps = $('input[name="retrieveremoteimage"]').click(function(){
-                maikuNoteOptions.serializeImg = $(this).attr('checked') == 'checked' ? true : false;
+                options.serializeImg = $(this).attr('checked') == 'checked' ? true : false;
             });
             self.imageAttachmentOps = $('input[name="imageattachment"]').click(function(){
-                maikuNoteOptions.imageAttachment = $(this).attr('checked') == 'checked' ? true : false;
+                options.imageAttachment = $(this).attr('checked') == 'checked' ? true : false;
             });
             self.autoExtractContentOps = $('input[name="autoextract"]').click(function(){
-                maikuNoteOptions.autoExtractContent = $(this).attr('checked') == 'checked' ? true : false;
+                options.autoExtractContent = $(this).attr('checked') == 'checked' ? true : false;
             });
-            if(maikuNoteOptions.serializeImg == false){
+            if(options.serializeImg == false){
                 self.retrieveRemoteImageOps.attr('checked', false);
             }
-            if(maikuNoteOptions.imageAttachment == true){
+            if(options.imageAttachment == true){
                 self.imageAttachmentOps.attr('checked', true);
             }
-            if(maikuNoteOptions.autoExtractContent == false){
+            if(options.autoExtractContent == false){
                 self.autoExtractContentOps.attr('checked', false);
-            }
+            } 
         }
     }
     $(function(){

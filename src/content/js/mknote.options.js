@@ -7,9 +7,14 @@
 		width: 660,
 		height: 540
 	    });
+	    MKNoteWebclipper.options.readOptionsFile();
+	    var i18n = $('#mknotewebclipper-i18n');
+            if(i18n.length > 0){
+                MKNoteWebclipper.i18n.stringBundle = i18n[0].stringBundle;
+            }
 	    window.frames[0].communicationProxy = {
 		clipper: MKNoteWebclipper,
-		i18n: $('#mknotewebclipper-i18n')[0]
+		options: MKNoteWebclipper.options
 	    }
         }
     }

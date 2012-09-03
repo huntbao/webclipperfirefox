@@ -87,12 +87,10 @@
                 if(t.is('.mkbm-auto-extract')){
 		    if(self.autoExtractContent.is('.mkbm-enable')){
                         self.autoExtractContent.removeClass('mkbm-enable').addClass('mkbm-disabled').attr('title', communicationProxy.clipper.i18n.getMessage('AutoExtractContentDisabled'));
-                        parent.postMessage({name: 'disablemouseselectfrommaikupopup'}, '*');
-                        chrome.extension.sendRequest({name: 'setautoextract', value: false});
+			communicationProxy.clipper.options.autoExtractContent = false;
                     }else{
                         self.autoExtractContent.removeClass('mkbm-disabled').addClass('mkbm-enable').attr('title', communicationProxy.clipper.i18n.getMessage('AutoExtractContentEnabled'));
-                        parent.postMessage({name: 'enablemouseselectfrommaikupopup'}, '*');
-                        chrome.extension.sendRequest({name: 'setautoextract', value: true});
+			communicationProxy.clipper.options.autoExtractContent = true;
                     }
                 }else if(t.is('.mkbm-panel-position')){
                     if(t.data('panel-position') == 'bottom'){
@@ -156,7 +154,7 @@
             self.dropList.delegate('li', 'click', function(e){
                 var t = $(this);
                 self.displayName.html(t.html()).data('cateid', t.attr('cateid'));
-		chrome.extension.sendRequest({name: 'setdefaultcategory', defaultCategory: t.attr('cateid')});
+		communicationProxy.clipper.options.defaultCategory = t.attr('cateid');
             });
         },
         setCategories: function(userData, settings){

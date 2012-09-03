@@ -7,7 +7,7 @@ MKNoteWebclipper.Util = {
         alert(message);
     },
     log: function(msg){
-        if(!msg){
+        if(msg === '' || msg === null){
             msg = '===>Nothing to debug!!!<===';
         }
         var self = this;

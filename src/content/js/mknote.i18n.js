@@ -20,34 +20,27 @@
         localizeElement: function(el){
             var self = this;
             if(!el) return;
-            el = $(el);
-            self.localizeMessages(el);
-            self.localizeTitleMessages(el);
-            self.localizePlaceholderMessages(el);
-        },
-        localizeMessages: function(el){
-            var self = this,
-            els = el.find('.message');
+            var els = $(el).find('.message'),
+            message;
             els.each(function(idx, ele){
-                $(this).html(self.getMessage($(this).attr('messagekey')));
+                ele = $(ele);
+                message = ele.attr('message');
+                if(message.indexOf(':') == -1){
+                    //html
+                    ele.html(self.getMessage(message));
+                }else{
+                    message = message.split('|');
+                    for(let i = 0; i < message.length; i++){
+                        let parts = message[i].split(':');
+                        if(parts[0] == 'html'){
+                            ele.html(self.getMessage(parts[1]));
+                        }else{
+                            ele.attr(parts[0], self.getMessage(parts[1]));
+                        }
+                    }
+                }
             });
-            els.removeAttr('messagekey').removeClass('message');
-        },
-        localizeTitleMessages: function(el){
-            var self = this,
-            els = el.find('.message-title');
-            els.each(function(idx, ele){
-                $(this).attr('title', self.getMessage($(this).attr('messagetitlekey')));
-            });
-            els.removeAttr('messagetitlekey').removeClass('message-title');
-        },
-        localizePlaceholderMessages: function(el){
-            var self = this,
-            els = el.find('.message-placeholder');
-            els.each(function(idx, ele){
-                $(this).attr('placeholder', self.getMessage($(this).attr('messageplaceholderkey'))).removeAttr('messageplaceholderkey');
-            });
-            els.removeAttr('messageplaceholderkey').removeClass('message-placeholder');
+            els.removeAttr('message').removeClass('message');
         }
     }
 })(MKNoteWebclipper.jQuery);
