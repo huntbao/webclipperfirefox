@@ -53,18 +53,18 @@ clean:
 # The sources for the XPI file.
 xpi_built := install.rdf \
              chrome.manifest \
-             $(wildcard content/js/*.js) \
-             $(wildcard content/css/*.css) \
-             $(wildcard content/css/images/*.png) \
-             $(wildcard content/images/*.png) \
-             $(wildcard content/images/*/*.png) \
-             $(wildcard content/*.html) \
-             $(wildcard content/*.xul) \
-             $(wildcard skin/classic/*.css) \
-	     $(wildcard skin/classic/*.png) \
-	     $(wildcard skin/classic/*/*.png) \
-             $(wildcard locale/*/*.dtd) \
-             $(wildcard locale/*/*.properties)
+             $(wildcard chrome/content/js/*.js) \
+             $(wildcard chrome/content/css/*.css) \
+             $(wildcard chrome/content/css/images/*.png) \
+             $(wildcard chrome/content/images/*.png) \
+             $(wildcard chrome/content/images/*/*.png) \
+             $(wildcard chrome/content/*.html) \
+             $(wildcard chrome/content/*.xul) \
+             $(wildcard chrome/skin/classic/*.css) \
+	     $(wildcard chrome/skin/classic/*.png) \
+	     $(wildcard chrome/skin/classic/*/*.png) \
+             $(wildcard chrome/locale/*/*.dtd) \
+             $(wildcard chrome/locale/*/*.properties)
 
 # This builds everything except for the actual XPI, and then it copies it to the
 # specified profile directory, allowing a quick update that requires no install.

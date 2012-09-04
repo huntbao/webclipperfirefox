@@ -1,0 +1,11 @@
+﻿@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+#mknotewebclipper-toolbar{
+    list-style-image: url("chrome://mknotewebclipper/content/images/icons/16x16.png");
+}
+toolbar[iconsize="small"] #mknotewebclipper-toolbar{
+    list-style-image: url("chrome://mknotewebclipper/content/images/icons/16x16.png");
+}
+#mknotewebclipper-toolbar stack label.small,
+#mknotewebclipper-toolbar stack label.big{
+    display: none;
+}

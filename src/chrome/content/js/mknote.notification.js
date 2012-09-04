@@ -6,13 +6,25 @@
         show: function(message, lastTime){
             var self = this;
             clearTimeout(self.notificationTimer);
+            clearInterval(self.checkReadyTimer);
             if(self._dialog){
-                self._dialogData.changeMessage(message);
+                //if show method called very quickly, the notification page maybe not ready(so it has no changeMessage method)
+                if(self._dialogData.notificationReady == true){
+                    self._dialogData.changeMessage(message);
+                }else{
+                    self.checkReadyTimer = setInterval(function(){
+                        if(self._dialogData.notificationReady){
+                            clearInterval(self.checkReadyTimer);
+                            self._dialogData.changeMessage(message);
+                        }
+                    }, 1);
+                }
             }else{
                 self._dialogData = {
                     i18n: self.clipper.i18n,
                     desktopNotification: self,
                     message: message,
+                    notificationReady: false,
                     changeMessage: function(){
                         //this method will be rewrited in dialog code
                     }
@@ -32,6 +44,7 @@
             if(self._dialog){
                 self._dialog.close();
                 clearTimeout(self.notificationTimer);
+                clearInterval(self.checkReadyTimer);
                 self._dialog = null;
                 self._dialogData = null;
             }

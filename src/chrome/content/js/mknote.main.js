@@ -3,8 +3,8 @@
 ;(function($){
     $.extend(MKNoteWebclipper, {
         loginCookieName: '.iNoteAuth',
-        baseUrl: 'http://notelocal.sdo.com',
-        iNoteAuthCookieHost: '.notelocal.sdo.com',
+        baseUrl: 'http://note.sdo.com',
+        iNoteAuthCookieHost: '.note.sdo.com',
         mkNoteWebclipperPopups: [],//store all popups, every tab can have a popup
         menuActionSwitcher: function(event, clipType){
             var self = this;
@@ -117,7 +117,7 @@
         },
         serializeImage: function(checked){
             var self = this;
-            self.options.serializeImg = checked;
+            self.options.serializeImg = (checked == '' ? false : true);
         },
         createPopup: function(){
             if(content.currentMaikuWebclipperPopup) return;
@@ -150,7 +150,7 @@
             if(cookie == null){
                 showNotification && self.Notification.show(self.i18n.getMessage('NotLogin'), false);
                 var popLoginWin = content.openDialog(self.baseUrl + '/login', '','chrome, titlebar = no, left = 10, top = 10, width = 800, height = 600, resizable = no');
-                self.addCookieObserver.addObserver('popupLoginObserver', self.loginCookieName, false, function(action){
+                self.Observer.addCookieObserver('popupLoginObserver', self.loginCookieName, false, function(action){
                     popLoginWin.close();
                     callback && callback();
                 });

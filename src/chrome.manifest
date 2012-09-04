@@ -1,9 +1,8 @@
-content   mknotewebclipper                 content/
-skin	  mknotewebclipper  classic/1.0	   skin/
-locale    mknotewebclipper  zh-CN          locale/zh-CN/
-resource  mknotewebclipperimages           content/css/images/
+content   mknotewebclipper                 chrome/content/
+skin	  mknotewebclipper  classic/1.0	   chrome/skin/classic/
+locale    mknotewebclipper  zh-CN          chrome/locale/zh-CN/
+resource  mknotewebclipperimages           chrome/content/css/images/
 
-overlay chrome://browser/content/browser.xul  chrome://mknotewebclipper/content/browserOverlay.xul
-
-#firefox style
-style chrome://global/content/customizeToolbar.xul chrome://mknotewebclipper/skin/toolbar.css
+overlay chrome://browser/content/browser.xul          chrome://mknotewebclipper/content/webclipper.xul
+style	chrome://browser/content/browser.xul	      chrome://mknotewebclipper/skin/webclipper.css
+style   chrome://global/content/customizeToolbar.xul  chrome://mknotewebclipper/skin/webclipper.css

@@ -20,8 +20,16 @@
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>4.0b1</em:minVersion>
-	<em:maxVersion>15.0a1</em:maxVersion>
+        <em:maxVersion>15.*</em:maxVersion>
       </Description>
     </em:targetApplication>
+    <em:localized>
+	<Description>
+	    <em:locale>zh-Cn</em:locale>
+	    <em:name>麦库记事·剪集</em:name>
+	    <em:description>点击工具栏或者右键，轻松保存笔记到麦库记事。</em:description>
+	    <em:creator>@麦库记事</em:creator>
+	</Description>
+    </em:localized>
   </Description>
 </RDF>

@@ -1,4 +1,5 @@
 ﻿<!ENTITY mknotewebclipper.name "麦库记事·剪集">
+<!ENTITY mknotewebclipper.toolbartip "选择页面内容，快速保存笔记到麦库，您也可以在页面上点击右键使用该功能">
 <!ENTITY mknotewebclipper.menu.selection "剪辑选择内容">
 <!ENTITY mknotewebclipper.menu.curimage "剪辑该图片">
 <!ENTITY mknotewebclipper.menu.curlink "剪辑该链接">

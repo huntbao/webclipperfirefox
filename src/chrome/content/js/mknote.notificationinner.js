@@ -28,6 +28,9 @@
                     checkCloseBtn();
                 });
             }
+            
+            params.notificationReady = true;
+            
             checkCloseBtn();
         },
         initCloseBtn: function(params){

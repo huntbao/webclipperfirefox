@@ -197,7 +197,7 @@
                         for(var i = 0, l = serializeSucceedImgIndex.length; i < l; i++){
                             serializeSucceedImgIndexByOrder[serializeSucceedImgIndex[i]] = i.toString();
                         }
-                        self.notifyHTML('isUploadingImagesTip', false);
+                        self.notifyHTML('IsUploadingImagesTip', false);
                         $.ajax({
                             url: self.clipper.baseUrl + "/attachment/savemany/",
                             type: 'POST',
