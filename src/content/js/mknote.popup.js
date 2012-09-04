@@ -62,14 +62,12 @@
 		    popupInstance.hide();
 		    self.removeInspector();
 		    let t = this;
-		    t.clipper.Note.saveNote(
+		    t.clipper.Note.saveNoteFromPopup(
 			noteData.title,
 			content.location.href,
 			noteData.notecontent,
 			noteData.tags,
 			noteData.categoryid,
-			'',
-			'',
 			function(){
 			    //save note success, remove staffs
 			    t.clipper.deletePopup(content.currentMaikuWebclipperPopup);
@@ -435,14 +433,14 @@
         },
         filterTagsObj: {style:1,script:1,link:1,iframe:1,frame:1,frameset:1,noscript:1,head:1,html:1,applet:1,base:1,basefont:1,bgsound:1,blink:1,ilayer:1,layer:1,meta:1,object:1,embed:1,input:1,textarea:1,button:1,select:1,canvas:1,map:1},
         saveStyles:{
-	    'backgroundAttachment': 'scroll',
+	    //'backgroundAttachment': 'scroll',
 	    'backgroundColor': 'transparent',
 	    'backgroundImage': 'none',
 	    'backgroundPosition': '0% 0%',
 	    'backgroundRepeat': 'repeat',
-	    'borderCollapse': 'separate',
+	    //'borderCollapse': 'separate',
 	    'borderColor': '',
-	    'borderSpacing': '0px 0px',
+	    //'borderSpacing': '0px 0px',
 	    'borderStyle': '',
 	    'borderTop': '',
 	    'borderRight': '',
@@ -461,33 +459,33 @@
 	    'borderBottomWidth': '0px',
 	    'borderLeftWidth': '0px',
 	    'borderWidth': '',
-	    'borderRadius': '',
-	    'borderTopLeftRadius': '0px',
-	    'borderTopRightRadius': '0px',
-	    'borderBottomLeftRadius': '0px',
-	    'borderBottomRightRadius': '0px',
+	    //'borderRadius': '',
+	    //'borderTopLeftRadius': '0px',
+	    //'borderTopRightRadius': '0px',
+	    //'borderBottomLeftRadius': '0px',
+	    //'borderBottomRightRadius': '0px',
 	    'bottom': 'auto',
-	    'clear': 'none',
+	    //'clear': 'none',
 	    'color': 'rgb(0, 0, 0)',
-	    'cursor': 'auto',
+	    //'cursor': 'auto',
 	    'display': '',
 	    'cssFloat': '',
 	    'fontFamily': '',
 	    'fontSize': '',
 	    'fontStyle': '',
-	    'fontWeight': '400',
+	    'fontWeight': '',
 	    'height': '',
 	    'left': 'auto',
-	    'letterSpacing': 'normal',
+	    //'letterSpacing': 'normal',
 	    'lineHeight': '20px',
 	    'marginTop': '0px',
 	    'marginRight': '0px',
 	    'marginBottom': '0px',
 	    'marginLeft': '0px',
-	    'maxHeight': 'none',
-	    'maxWidth': 'none',
-	    'minHeight': '0px',
-	    'minWidth': '0px',
+	    //'maxHeight': 'none',
+	    //'maxWidth': 'none',
+	    //'minHeight': '0px',
+	    //'minWidth': '0px',
 	    'overflow': 'visible',
 	    'paddingTop': '0px',
 	    'paddingRight': '0px',
@@ -495,23 +493,23 @@
 	    'paddingLeft': '0px',
 	    'position': 'static',
 	    'right': 'auto',
-	    'tableLayout': 'auto',
+	    //'tableLayout': 'auto',
 	    'textAlign': 'start',
 	    'textDecoration': 'none',
 	    'textIndent': '0px',
 	    'top': 'auto',
 	    'verticalAlign': 'baseline',
 	    'visibility': 'visible',
-	    'whiteSpace': 'normal',
+	    //'whiteSpace': 'normal',
 	    'width': '',
-	    'wordSpacing': '0px',
+	    //'wordSpacing': '0px',
 	    'zIndex': 'auto',
-	    'backgroundClip': 'border-box',
-	    'backgroundOrigin': 'padding-box',
-	    'opacity': '1',
-	    'overflowX': 'visible',
-	    'overflowY': 'visible',
-	    'wordWrap': 'normal'
+	    //'backgroundClip': 'border-box',
+	    //'backgroundOrigin': 'padding-box',
+	    //'opacity': '1',
+	    //'overflowX': 'visible',
+	    //'overflowY': 'visible',
+	    //'wordWrap': 'normal'
         },
         removeAttrs: function(node){
             var removeAttrs = ['id', 'class', 'height', 'width'];
@@ -535,11 +533,6 @@
                 add: add,
                 title: title
 	    });
-        },
-        saveNote: function(notedata){
-            var port = chrome.extension.connect({name:'savenotefrompopup'});
-            notedata.sourceurl = location.href;
-            port.postMessage(notedata);
         }
     }
 })(MKNoteWebclipper.jQuery);

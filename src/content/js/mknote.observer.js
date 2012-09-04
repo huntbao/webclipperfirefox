@@ -1,9 +1,9 @@
 ﻿//@huntbao @mknote
 //All right reserved
-MKNoteWebclipper.Cookie = {
+MKNoteWebclipper.Observer = {
     clipper: MKNoteWebclipper,
     observers: {},
-    get: function(url, name, host){
+    getCookie: function(url, name, host){
         var self = this;
         try{
             host = host || self.ioService.newURI(url, null, null).host;
@@ -20,6 +20,16 @@ MKNoteWebclipper.Cookie = {
     },
     observe: function(subject, topic, data){
         var self = this;
+        //options file changed
+        if(topic == 'options-file-changed'){
+            try{
+                self.clipper.options.settings = JSON.parse(data);
+            }catch(e){
+                //todo
+            }
+            return;
+        }
+        //cookie changed
         try{
             subject.QueryInterface(Components.interfaces.nsICookie);
         }catch(e){
@@ -39,12 +49,12 @@ MKNoteWebclipper.Cookie = {
             }
         }
     },
-    startObserverService: function(){
+    startCookieObserverService: function(){
         var self = this;
         self.observerService.addObserver(self, 'cookie-changed', false);
         return self;
     },
-    addObserver: function(observerName, observerCookieName, always, observeCallback){
+    addCookieObserver: function(observerName, observerCookieName, always, observeCallback){
         var self = this;
         self.observers[observerName] = {
             cookieName: observerCookieName,
@@ -53,12 +63,16 @@ MKNoteWebclipper.Cookie = {
         }
         return self;
     },
-    removeObserverService: function(){
+    removeCookieObserverService: function(){
         var self = this;
         if(self.observerService){
             self.observerService.removeObserver(self, 'cookie-changed');
         }
         return self;
+    },
+    startOptionsFileObserverService:function(){
+        var self = this;
+        self.observerService.addObserver(self, 'options-file-changed', false);
     },
     getIOService: function(){
         var self = this;
@@ -82,6 +96,6 @@ MKNoteWebclipper.Cookie = {
         return self._observerService;
     }
 };
-MKNoteWebclipper.Cookie.__defineGetter__('ioService', MKNoteWebclipper.Cookie.getIOService);
-MKNoteWebclipper.Cookie.__defineGetter__('cookieManagerService', MKNoteWebclipper.Cookie.getCookieManagerService);
-MKNoteWebclipper.Cookie.__defineGetter__('observerService', MKNoteWebclipper.Cookie.getObserverService);
+MKNoteWebclipper.Observer.__defineGetter__('ioService', MKNoteWebclipper.Observer.getIOService);
+MKNoteWebclipper.Observer.__defineGetter__('cookieManagerService', MKNoteWebclipper.Observer.getCookieManagerService);
+MKNoteWebclipper.Observer.__defineGetter__('observerService', MKNoteWebclipper.Observer.getObserverService);

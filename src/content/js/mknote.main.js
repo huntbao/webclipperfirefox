@@ -8,7 +8,6 @@
         mkNoteWebclipperPopups: [],//store all popups, every tab can have a popup
         menuActionSwitcher: function(event, clipType){
             var self = this;
-            self.Util.log(gContextMenu);
             switch(clipType){
                 case 'selection':
                     self.clipSelection();
@@ -31,9 +30,6 @@
                 case 'url':
                     self.clipPageUrl();
                     break;
-                case 'curlink':
-                    self.clipLink();
-                    break;
                 case 'newnote':
                     self.newNote();
                     break;
@@ -47,17 +43,73 @@
         clipSelection: function(){
             var self = this,
             userSelectionText = content.getSelection().toString();
-            self.Util.log(userSelectionText);
             if(userSelectionText.trim() == '') return;
+            self.Note.saveNote(userSelectionText, content.location.href, userSelectionText);
         },
         clipImage: function(){
             var self = this,
             target = gContextMenu.target;
-            self.Note.getImageFromURL(target.src);
+            self.Note.saveImgs({
+                imgs: [target],
+                title: content.document.title,
+                sourceurl: content.location.href
+            });
+        },
+        clipLink: function(){
+            var self = this,
+            target = gContextMenu.target,
+            title = target.title || target.text || target.href,
+            noteContent = '<a href="' + target.href + '" title="' + target.title + '">' + target.text + '</a>';
+            self.Note.saveNote(title, content.location.href, noteContent);    
         },
         clipPageContent: function(){
-            var self = this;
-            self.Note.saveNote('hello world', content.location.href, '你好');
+            var self = this,
+            title = content.document.title,
+            sourceurl = content.location.href,
+            noteContent =  self.Popup.getHTMLByNode($(content.document.body))
+            self.Note.savePageContent(title, sourceurl, noteContent);
+        },
+        clipAllLinks: function(){
+            var self = this,
+            links = content.document.querySelectorAll('a'),
+            noteContent = '';
+            for(var i = 0, l = links.length, link; i < l; i++){
+                link = links[i];
+                noteContent += '<a href="' + link.href + '" title="' + link.title + '">' + link.text + '</a><br />';
+            }
+            self.Note.saveNote(content.document.title, content.location.href, noteContent);
+        },
+        clipAllImages: function(){
+            var self = this,
+            imgs = content.document.querySelectorAll('img'),
+            filteredImg = {},
+            filteredImgTitles = [],
+            isToSave = function(url){
+                var suffix = url.substr(url.length - 4);
+                return /^\.(gif|jpg|png)$/.test(suffix);
+            }
+            for(var i = 0, img, l = imgs.length, src; i < l; i++){
+                img = imgs[i];
+                src = img.src;
+                if(!isToSave(src)) continue;
+                if(filteredImg[src]) continue;
+                filteredImg[src] = 1;
+                filteredImgTitles.push(img.title || img.alt || '');
+            }
+            self.Note.saveImgs({
+                imgs: imgs,
+                title: content.document.title,
+                sourceurl: content.location.href
+            });
+        },
+        clipPageUrl: function(){
+            var self = this,
+            url = content.location.href,
+            title = content.document.title,
+            favIconUrl = self.getFaviconForPage(url),
+            noteContent = '<img src="' + favIconUrl.spec + '" title="' + title + '" alt="' + title + '"/>' +
+                '<a href="' + url + '" title="' + title + '">' + url + '</a>';
+            self.Note.saveNote(title, url, noteContent);
         },
         newNote: function(){
             var self = this;
@@ -94,11 +146,11 @@
         },
         checkLogin: function(callback, showNotification){
             var self = this;
-            cookie = self.Cookie.get(self.baseUrl, self.loginCookieName, self.iNoteAuthCookieHost);
+            cookie = self.Observer.getCookie(self.baseUrl, self.loginCookieName, self.iNoteAuthCookieHost);
             if(cookie == null){
                 showNotification && self.Notification.show(self.i18n.getMessage('NotLogin'), false);
                 var popLoginWin = content.openDialog(self.baseUrl + '/login', '','chrome, titlebar = no, left = 10, top = 10, width = 800, height = 600, resizable = no');
-                self.Cookie.addObserver('popupLoginObserver', self.loginCookieName, false, function(action){
+                self.addCookieObserver.addObserver('popupLoginObserver', self.loginCookieName, false, function(action){
                     popLoginWin.close();
                     callback && callback();
                 });
@@ -116,7 +168,7 @@
                 callback(self.combineData(self.userData));
                 return;
             }
-            var cookie = self.Cookie.get(self.baseUrl, self.loginCookieName, self.iNoteAuthCookieHost);
+            var cookie = self.Observer.getCookie(self.baseUrl, self.loginCookieName, self.iNoteAuthCookieHost);
             if(cookie){
                 //user logined, get user from localStorage or send request to get user
                 $.ajax({
@@ -175,6 +227,14 @@
                 let popupContext = self.mkNoteWebclipperPopups[i].popupContext;
                 popupContext.maikuWebclipperPopupIframe.communicationProxy.updateUserInfo(data);
             }
+        },
+        getFaviconForPage: function(url){
+            var faviconService = Components.classes['@mozilla.org/browser/favicon-service;1']
+                .getService(Components.interfaces.nsIFaviconService),
+            mlIOService = Components.classes["@mozilla.org/network/io-service;1"] 
+                    .getService(Components.interfaces.nsIIOService2),
+            mURI = mlIOService.newURI(url, null, null);
+            return faviconService.getFaviconForPage(mURI);
         },
         restartFirefox: function(){
             Components.classes['@mozilla.org/toolkit/app-startup;1'].getService(Components.interfaces.nsIAppStartup)

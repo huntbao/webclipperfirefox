@@ -11,12 +11,12 @@
             self.initBindEvent();
             self.jQuerySetUp();
             self.clipper.options.readOptionsFile();
-            self.addOptionsFileChangeObserver();
+            self.clipper.Observer.startOptionsFileObserverService();
         },
         initCookieStaff: function(){
             var self = this;
-            self.clipper.Cookie.startObserverService()
-            .addObserver('cookieChangedObserver', self.clipper.loginCookieName, true, function(action){
+            self.clipper.Observer.startCookieObserverService()
+            .addCookieObserver('cookieChangedObserver', self.clipper.loginCookieName, true, function(action){
                 self.clipper.cookieChanged(action);
             });
         },
@@ -89,33 +89,9 @@
                     return data.success ? data.data : {error: data.error};
                 }
             });
-        },
-        addOptionsFileChangeObserver: function(){
-            var self = this;
-            //custom notificaion field, called when options file is changed, see mknote.settings.js for details
-            self.observer.addObserver(self, 'options-file-changed', false);
-        },
-        observe: function(subject, topic, data){
-            var self = this;
-            if(topic == 'options-file-changed'){
-                try{
-                    self.clipper.options.settings = JSON.parse(data);
-                }catch(e){
-                    //todo
-                }
-            }
-        },
-        getObserver: function(){
-            var self = this;
-	    if(!self._observer){
-		self._observer = Components.classes['@mozilla.org/observer-service;1'].getService(Components.interfaces.nsIObserverService);
-	    }
-	    return self._observer;
         }
     }
-    
-    MKNoteWebclipperInit.__defineGetter__('observer', MKNoteWebclipperInit.getObserver);
-    
+        
     $(window).bind('load', function(){
         MKNoteWebclipperInit.init();
     });

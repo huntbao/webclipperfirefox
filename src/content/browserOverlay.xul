@@ -1,37 +1,48 @@
 ﻿<?xml version="1.0"?>
 
 <?xml-stylesheet type="text/css" href="chrome://global/skin/" ?>
-<?xml-stylesheet type="text/css" href="chrome://mknotewebclipper/skin/classic/browserOverlay.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://mknotewebclipper/skin/browserOverlay.css" ?>
+<?xml-stylesheet type="text/css" href="chrome://mknotewebclipper/skin/toolbar.css" ?>
 
 <!DOCTYPE overlay SYSTEM  "chrome://mknotewebclipper/locale/browserOverlay.dtd">
 
 <overlay id="mknotewebclipper-browser-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.jquery.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.main.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.util.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.filemanager.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.cookie.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.i18n.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.note.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.notification.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.popup.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.settings.js" />
-  <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.initialization.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.jquery.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.main.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.util.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.filemanager.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.observer.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.i18n.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.note.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.notification.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.popup.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.settings.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.initialization.js" />
 
-  <stringbundleset id="stringbundleset">
-    <stringbundle id="mknotewebclipper-stringbundle" src="chrome://mknotewebclipper/locale/mknotewebclipper.properties" />
-  </stringbundleset>
+    <stringbundleset id="stringbundleset">
+        <stringbundle id="mknotewebclipper-stringbundle" src="chrome://mknotewebclipper/locale/mknotewebclipper.properties" />
+    </stringbundleset>
   
-  <!-- Tools menu -->
-  <menupopup id="menu_ToolsPopup">
-    <menuitem id="mknotewebclipper-menu"
-      label="&mknotewebclipper.name;"
-      image="chrome://mknotewebclipper/content/images/icons/16x16.png"
-      class="menuitem-iconic"
-      insertbefore="devToolsEndSeparator">
-    </menuitem>
-  </menupopup>
+    <toolbarpalette id="BrowserToolbarPalette">
+        <toolbarbutton id="mknotewebclipper-toolbar" label="&mknotewebclipper.name;"
+            class="toolbarbutton-1 chromeclass-toolbar-additional"
+            tooltiptext="&mknotewebclipper.name;"
+            oncommand="MKNoteWebclipper.menuActionSwitcher(event, 'newnote');">
+            <label class="toolbarbutton-text" crop="right" value="&mknotewebclipper.name;"/>
+        </toolbarbutton>
+    </toolbarpalette>
+    
+    <!-- Tools menu -->
+    <menupopup id="menu_ToolsPopup">
+      <menuitem id="mknotewebclipper-menu"
+        label="&mknotewebclipper.name;"
+        image="chrome://mknotewebclipper/content/images/icons/16x16.png"
+        class="menuitem-iconic"
+        insertbefore="devToolsEndSeparator"
+        oncommand="MKNoteWebclipper.menuActionSwitcher(event, 'newnote');">
+      </menuitem>
+    </menupopup>
   
   <!-- Context menu -->
   <popup id="contentAreaContextMenu">
