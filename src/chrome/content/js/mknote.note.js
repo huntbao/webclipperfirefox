@@ -80,12 +80,12 @@
                     needReplaceImgs.push(img);
                 }
                 self.saveImgs({
-                   imgs: imgs,
+                   imgs: needReplaceImgs,
                    imgTitles: filteredImgTitles,
                    title: title,
                    sourceurl: sourceurl
                 }, function(uploadedImageData, serializeSucceedImgIndexByOrder, noteId){
-                    var realIndex, d;
+                    let realIndex, d;
                     for(let i = 0, l = needReplaceImgs.length; i < l; i++){
                         realIndex = serializeSucceedImgIndexByOrder[i];
                         if(realIndex){

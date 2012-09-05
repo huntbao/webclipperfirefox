@@ -95,12 +95,32 @@
                 }else if(t.is('.mkbm-panel-position')){
                     if(t.data('panel-position') == 'bottom'){
 			communicationProxy.positionTop();
-                        t.data('panel-position', 'top').find('.mkbm-util-icon').removeClass('mkbm-down').attr('title', communicationProxy.clipper.i18n.getMessage('GoBottom'));
+                        t.data('panel-position', 'top')
+			.find('.mkbm-util-icon')
+			.removeClass('mkbm-down')
+			.attr('title', communicationProxy.clipper.i18n.getMessage('GoBottom'));
                     }else{
 			communicationProxy.positionBottom();
-                        t.data('panel-position', 'bottom').find('.mkbm-util-icon').addClass('mkbm-down').attr('title', communicationProxy.clipper.i18n.getMessage('GoTop'));
+                        t.data('panel-position', 'bottom')
+			.find('.mkbm-util-icon')
+			.addClass('mkbm-down')
+			.attr('title', communicationProxy.clipper.i18n.getMessage('GoTop'));
                     }
-                }
+                }else if(t.is('.mkbm-mouse-select')){
+		    if(t.data('isdisabled') == 'true'){
+			communicationProxy.showInspector();
+			t.data('isdisabled', 'false')
+			.find('.mkbm-util-icon')
+			.removeClass('mkbm-disabled')
+			.attr('title', communicationProxy.clipper.i18n.getMessage('DisableMouseSelect'));
+		    }else{
+			communicationProxy.hideInspector();
+			t.data('isdisabled', 'true')
+			.find('.mkbm-util-icon')
+			.addClass('mkbm-disabled')
+			.attr('title', communicationProxy.clipper.i18n.getMessage('EnableMouseSelect'));
+		    }
+		}
             });
             self.noteContent = noteContent;
         },

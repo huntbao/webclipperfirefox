@@ -25,6 +25,12 @@
                 createInspector: function(autoExtractContent){
                     self._createInspector(autoExtractContent);
                 },
+		showInspector: function(){
+		    self._showInspector();
+		},
+		hideInspector: function(){
+		    self._hideInspector();
+		},
 		showWin: function(){
 		    popupInstance.show();
 		},
@@ -200,6 +206,22 @@
             self.markCount = 0;
             self.body.unbind('mousemove.maikuclippermark').unbind('click.maikuclippermark');
         },
+	_hideInspector: function(){
+	    var self = this;
+            if(!self.markContainer) return;
+            self.markContainer.hide();
+	    self.body.unbind('mousemove.maikuclippermark').unbind('click.maikuclippermark');
+	},
+	_showInspector: function(){
+	    var self = this;
+            if(!self.markContainer) return;
+            self.markContainer.show();
+	    self.body.bind('mousemove.maikuclippermark', function(e){
+                self.mouseMoveMarkHandler(e);
+            }).bind('click.maikuclippermark', function(e){
+                self.clickMarkHandler(e);
+            })
+	},
         mouseMoveMarkHandler: function(e){
             var self = this;
             self.cover.show();
@@ -428,7 +450,8 @@
                 }
                 cloneNode.css(styleObj);
                 self.removeAttrs(cloneNode);
-                return cloneNode[0].outerHTML;
+		var div = $('<div></div>', content.document).append(cloneNode);
+                return div.html();
             }
         },
         filterTagsObj: {style:1,script:1,link:1,iframe:1,frame:1,frameset:1,noscript:1,head:1,html:1,applet:1,base:1,basefont:1,bgsound:1,blink:1,ilayer:1,layer:1,meta:1,object:1,embed:1,input:1,textarea:1,button:1,select:1,canvas:1,map:1},
@@ -477,7 +500,7 @@
 	    'height': '',
 	    'left': 'auto',
 	    //'letterSpacing': 'normal',
-	    'lineHeight': '20px',
+	    'lineHeight': '',
 	    'marginTop': '0px',
 	    'marginRight': '0px',
 	    'marginBottom': '0px',

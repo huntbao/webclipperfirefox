@@ -31,6 +31,8 @@
             var self = this;
             self.contextMenus = {
                 selection: $('#mknotewebclipper-contextmenu-selection'),
+                weibo: $('#mknotewebclipper-contextmenu-weibo'),
+                douban: $('#mknotewebclipper-contextmenu-douban'),
                 curimage: $('#mknotewebclipper-contextmenu-curimage'),
                 curlink: $('#mknotewebclipper-contextmenu-curlink'),
                 content: $('#mknotewebclipper-contextmenu-content'),
@@ -65,6 +67,18 @@
             menus.selection[isContentSelected ? 'show' : 'hide']();
             menus.curlink[onLink ? 'show' : 'hide']();
             menus.curimage[onImage ? 'show' : 'hide']();
+            //weibo
+            if(onLink && self.isWeiboSite()){
+                menus.weibo.show();
+            }else{
+                menus.weibo.hide();
+            }
+            //douban
+            if(self.isDoubanSite()){
+                menus.douban.show();
+            }else{
+                menus.douban.hide();
+            }
             if(onImage || onLink || isContentSelected){
                 menus.content.hide();
                 menus.links.hide();
@@ -79,6 +93,24 @@
                 menus.subseperator1.show();
             }
             menus.serializeimage[0].setAttribute('checked', self.clipper.options.settings.serializeImg);
+        },
+        isWeiboSite: function(){
+            var self = this,
+            currentSiteDomain = content.document.domain;
+            return /(weibo.com|www.weibo.com|s.weibo.com|e.weibo.com)/.test(currentSiteDomain);
+        },
+        isDoubanSite: function(){
+            var self = this,
+            currentSiteDomain = content.document.domain;
+            if(/(movie.douban.com|book.douban.com|music.douban.com)/.test(currentSiteDomain)){
+                if(content.document.location.href.indexOf('review') != -1){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         },
         jQuerySetUp:function(){
             $.ajaxSetup({

@@ -125,7 +125,6 @@ body{
 }
 .mkbm-auto-extract .mkbm-enable{
     background-position: -1px -44px;
-    
 }
 .mkbm-auto-extract .mkbm-disabled{
     background-position: -1px -135px;
@@ -139,8 +138,11 @@ body{
 .mkbm-panel-position .mkbm-down{
     background-position: -1px -165px;
 }
-.mkbm-refresh-info .mkbm-util-icon{
-    background-position: -1px -230px;
+.mkbm-mouse-select .mkbm-enable{
+    background-position: -62px -232px;
+}
+.mkbm-mouse-select .mkbm-disabled{
+    background-position: -36px -232px;
 }
 .mkbm-util-item .pc{
     background-position: 3px -360px;

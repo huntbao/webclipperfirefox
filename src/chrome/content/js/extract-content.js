@@ -1,4 +1,4 @@
-Ôªøif (typeof ExtractContentJS == 'undefined') {
+if (typeof ExtractContentJS == 'undefined') {
     var ExtractContentJS = {};
 }
 if (typeof ExtractContentJS.Lib == 'undefined') {
@@ -42,12 +42,12 @@ ExtractContentJS.Lib.Util = (function() {
     };
     Util.Token = function(word) {
         var regex = {
-            // hiragana: /[„ÅÇ-„Çì„Åå-„Åº„ÅÅ-„Çá„Çé„Å£„Éº]/,
+            // hiragana: /[§¢-§Û§¨-§‹§°-§Á§Ó§√©`]/,
             hiragana: /[\u3042-\u3093\u304C-\u307C\u3041-\u3087\u308E\u3063\u30FC]/,
-            // katakana: /[„Ç¢-„É≥„Ç¨-„Éú„Ç°-„Éß„ÉÆ„ÉÉ„Éº]/,
+            // katakana: /[•¢-•Û•¨-•‹•°-•Á•Ó•√©`]/,
             katakana: /[\u30A2-\u30F3\u30AC-\u30DC\u30A1-\u30E7\u30EE\u30C3\u30FC]/,
             kanji: { test: function(w) {
-                // return '‰∏Ä' <= w && w <= 'Èæ†' || w === '„ÄÖ';
+                // return '“ª' <= w && w <= 'Ÿﬂ' || w === '°©';
                 return '\u4E00' <= w && w <= '\u9FA0' || w === '\u3005';
             } },
             alphabet: /[a-zA-Z]/,
@@ -607,7 +607,7 @@ if (typeof ExtractContentJS == 'undefined') {
                     display: 'none',
                     visibility: 'hidden'
                 },
-                // punctuations: /[„ÄÇ„ÄÅÔºéÔºåÔºÅÔºü]|\.[^A-Za-z0-9]|,[^0-9]|!|\?/
+                // punctuations: /[°£°¢£Æ£¨£°£ø]|\.[^A-Za-z0-9]|,[^0-9]|!|\?/
                 punctuations: /[\u3002\u3001\uFF0E\uFF0C\uFF01\uFF1F]|\.[^A-Za-z0-9]|,[^0-9]|!|\?/
             })
         };
@@ -864,4 +864,3 @@ if (typeof ExtractContentJS == 'undefined') {
         return self;
     };
 })(ExtractContentJS);
-
