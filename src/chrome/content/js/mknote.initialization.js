@@ -92,7 +92,7 @@
                 menus.url.show();
                 menus.subseperator1.show();
             }
-            menus.serializeimage[0].setAttribute('checked', self.clipper.options.settings.serializeImg);
+            menus.serializeimage[0].setAttribute('checked', self.clipper.options.serializeImg);
         },
         isWeiboSite: function(){
             var self = this,
