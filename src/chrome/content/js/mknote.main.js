@@ -172,7 +172,7 @@
             cookie = self.Observer.getCookie(self.baseUrl, self.loginCookieName, self.iNoteAuthCookieHost);
             if(cookie == null){
                 showNotification && self.Notification.show(self.i18n.getMessage('NotLogin'), false);
-                var popLoginWin = content.openDialog(self.baseUrl + '/login', '','chrome, titlebar = no, left = 10, top = 10, width = 800, height = 600, resizable = no');
+                var popLoginWin = content.open(self.baseUrl + '/login', '','chrome=no, titlebar = no, left = 10, top = 10, width = 800, height = 600, resizable = no');
                 self.Observer.addCookieObserver('popupLoginObserver', self.loginCookieName, false, function(action){
                     popLoginWin.close();
                     callback && callback();

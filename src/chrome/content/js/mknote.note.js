@@ -172,15 +172,15 @@
         },
         _saveImgs: function(msg, successCallback, failCallback){
             var self = this,
-            content = '',
+            noteContent = '',
             imgs = msg.imgs,
             totalImgNum = imgs.length,
             titles = [],
             saveNormalNote = function(){
                 for(let i = 0; i < totalImgNum; i++){
-                    content += '<img src="' + imgs[i].src + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
+                    noteContent += '<img src="' + imgs[i].src + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
                 }
-                self.saveNote(msg.title, msg.sourceurl, content, msg.tags);
+                self.saveNote(msg.title, msg.sourceurl, noteContent, msg.tags);
             }
             for(let i = 0; i < totalImgNum; i++){
                 titles.push(self.getFileNameByUrl(imgs[i].src));
@@ -225,13 +225,13 @@
                                         realIndex = serializeSucceedImgIndexByOrder[i];
                                         if(realIndex){
                                             d = data[realIndex];
-                                            content += '<img src="' + d.Url + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
+                                            noteContent += '<img src="' + d.Url + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
                                             delete serializeSucceedImgIndexByOrder[i];
                                         }else{
-                                            content += '<img src="' + imgs[i].src + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
+                                            noteContent += '<img src="' + imgs[i].src + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
                                         }
                                     }
-                                    self.saveNote(msg.title, msg.sourceurl, content, msg.tags, '', noteId);
+                                    self.saveNote(msg.title, msg.sourceurl, noteContent, msg.tags, '', noteId);
                                 }
                             },
                             error: function(jqXHR, textStatus, errorThrown){
