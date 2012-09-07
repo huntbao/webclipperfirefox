@@ -42,10 +42,10 @@
 我至今不明白为什么官方的文档只介绍到这就不再介绍更加方便的方法了。那有没有更加简单的方法呢？答案是肯定的。我为此也不惜花费了将近一整天的时间来研究简化开发的过程。
 
 1. 首先合并两条命令：将 ***make install*** 的命令拷贝到 ***make*** 下面
-2. 然后再添加以下语句
-* taskkill /f /im firefox.exe /fi "STATUS eq RUNNING" //如果有 Firefox 的进程，则杀死该进程
-* sleep 1 //防止接下来的启动 Firefox 的过程太快，导致进程还未真正被杀死
-* firefox.exe -jsconsole //启动进程，后面跟的命令参数是让 Firefox 启动时就打开 console 对话框，方便查看调试信息
+2. 添加语句：taskkill /f /im firefox.exe /fi "STATUS eq RUNNING" //如果有 Firefox 的进程，则杀死该进程
+3. 添加语句：sleep 1 //防止接下来的启动 Firefox 的过程太快，导致进程还未真正被杀死
+4. 添加语句：firefox.exe -jsconsole //启动进程，后面跟的命令参数是让 Firefox 启动时就打开 console 对话框，方便查看调试信息
+
 
 注：需要在系统环境变量里面添加 Firefox 的安装路径。
 
