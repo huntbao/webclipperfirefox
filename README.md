@@ -22,7 +22,7 @@
 4. 把 ***.xpi*** 文件拷贝到 ***Firefox*** 的插件安装目录
 5. 重启 ***Firefox*** 浏览器，插件生效
 
-一般地，需要上面的 **5** 个步骤，才能验证一次普通的代码修改。这几乎是不可能做到的，官方的这篇文档也已经考虑到这是一个不可能的任务，所以介绍了方便开发的工具。
+一般地，需要上面的 **5** 个步骤，才能验证一次普通的代码修改。如果每次修改代码后都需要操作这些步骤，这几乎是不可能做到的，官方的这篇文档也已经考虑到这是一个不可能的任务，所以介绍了方便开发的工具。
 
 ## Firefox 插件开发官方建议方法 ##
 以下我只讲解在**windows**下面开发的部分。
@@ -32,7 +32,7 @@
 3. 下载官方的例子  [Hello World 2 Project.](https://developer.mozilla.org/@api/deki/files/5142/=HelloWorld2.zip)
 4. 打开 ***src*** 目录下面的 ***HelloWorld2.komodoproject*** 文件
 5. 打开 ***Makefile*** 里面的 ***profile_dir***，改成本机上 Firefox 的 profile 目录路径，并检查 ***profile_location*** 是否正确
-6. 分别运行 ***make*** 和 ***bash -c "export OSTYPE; make install" ***命令
+6. 分别运行 make 和 bash -c "export OSTYPE; make install" 命令
 7. 重启 Firefox 浏览器。至此，恭喜你，插件终于"上线运行"了
 
 接下来的每次代码修改，你都需要运行两条命令（即步骤 **6**），然后手动重启浏览器（步骤 **7**）。**我敢保证，如果你就这么老实地按照这个步骤来做，你坚持不了两天，因为你的手会酸得不行**。
