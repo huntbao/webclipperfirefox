@@ -1,4 +1,4 @@
-注1：本 Firefox 插件是给 [麦库记事](https://developer.mozilla.org/en-US/docs/XUL_School/Setting_Up_a_Development_Environment) 网站开发的网页剪辑器工具。
+注1：本 Firefox 插件是给 [麦库记事](https://developer.mozilla.org/en-US/docs/XUL_School/Setting_Up_a_Development_Environment) 网站开发的网页剪辑器工具。[下载地址](https://addons.mozilla.org/zh-CN/firefox/addon/maiku-web-clipper/)
 
 注2：本说明只介绍 Firefox 插件开发环境的搭建。
 
