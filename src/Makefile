@@ -54,6 +54,7 @@ clean:
 xpi_built := install.rdf \
              chrome.manifest \
              $(wildcard chrome/content/js/*.js) \
+             $(wildcard chrome/content/js/lib/*.js) \
              $(wildcard chrome/content/css/*.css) \
              $(wildcard chrome/content/css/images/*.png) \
              $(wildcard chrome/content/images/*.png) \

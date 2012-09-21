@@ -97,10 +97,10 @@
                     self.saveNote(title, sourceurl, noteContentCon.html(), '', '', noteId);
                 }, function(){
                     //all images upload failed or serialize failed, just save the page
-                    self.saveNote(title, sourceurl, content);
+                    self.saveNote(title, sourceurl, noteContent);
                 });
             }else{
-                self.saveNote(title, sourceurl, content);
+                self.saveNote(title, sourceurl, noteContent);
             }
         },
         saveNoteFromPopup: function(title, sourceurl, noteContent, tags, categoryid, successCallback, failCallback){

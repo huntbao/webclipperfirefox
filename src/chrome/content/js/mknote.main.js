@@ -81,7 +81,6 @@
             self.Notification.show(self.i18n.getMessage('IsAnalysisPage'), false);
             var t = new Date().getTime();
             var noteContent = self.Popup.getHTMLByNode($(content.document.body));
-            self.Util.log(new Date().getTime() - t);
             self.Note.savePageContent(title, sourceurl, noteContent);
         },
         clipAllLinks: function(){

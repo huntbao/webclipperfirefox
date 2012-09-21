@@ -4,7 +4,8 @@
 
 <overlay id="mknotewebclipper-browser-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.jquery.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/lib/jquery.min.js" />
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.namespace.js" />
     <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.main.js" />
     <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.util.js" />
     <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.filemanager.js" />
