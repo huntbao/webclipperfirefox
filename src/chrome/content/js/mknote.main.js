@@ -144,11 +144,15 @@
         createPopup: function(){
             if(content.currentMaikuWebclipperPopup) return;
             var self = this,
-            popupInstance = $('<div mkclip="true" style="position:fixed;right:8px;top:8px;width:450px;height:450px;\
-            min-height:304px;max-height:524px;z-index:;border-radius:3px;box-shadow:0 0 5px 0 #333;overflow:hidden;z-index:20120830"></div>', content.document)
+            popupStyle = 'position:fixed;right:8px;top:8px;width:450px;height:450px;min-height:304px;max-height:524px;border-radius:3px;box-shadow:0 0 5px 0 #333;overflow:hidden;z-index:20120830;',
+            popupInstance = $('<div>', {mkclip: true, style: popupStyle}, content.document)
                 .hide()
                 .appendTo(content.document.body),
-            iframe = $('<iframe frameborder="0" style="width:100%;height:100%;"></iframe>', content.document).appendTo(popupInstance),
+            iframeStyle = 'width:100%;height:100%;',
+            iframe = $('<iframe>', content.document).attr('frameborder', '0').css({
+                width: '100%',
+                height: '100%'
+            }).appendTo(popupInstance),
             iframeWin = iframe[0].contentWindow;
             iframeWin.location.href = 'chrome://mknotewebclipper/content/popup.xul';
             content.currentMaikuWebclipperPopup = {

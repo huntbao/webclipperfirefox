@@ -111,14 +111,14 @@
             popupZIndex = 20120830,
             doc = $(content.document),
             body = $(doc[0].body);
-	    self.cover = $('<div mkclip="true"></div>', body).css({
+	    self.cover = $('<div>', {mkclip: 'true'}, body).css({
                 position: 'absolute',
                 top: 0,
                 left: 0,
                 opacity: 0,
                 'z-index': popupZIndex - 1
             });
-            self.mask = $('<div mkclip="true"></div>', body).css({
+            self.mask = $('<div>', {mkclip: 'true'}, body).css({
                 'border-radius': 5,
                 border: '3px solid #a2cca2',
                 position: 'absolute',
@@ -130,7 +130,7 @@
                 background: 'transparent'
             });
             var backgroundImageSrc = 'resource://mknotewebclipperimages/sprite.png',
-            markInner = $('<div mkclip="true"></div>', body).css({
+            markInner = $('<div>', {mkclip: 'true'}, body).css({
                 background: 'rgba(204, 255, 204, 0.5)',
                 height: '100%',
                 position: 'absolute',
@@ -138,7 +138,7 @@
                 top: 0,
                 width: '100%'
             }),
-            markExpandor = $('<div mkclip="true"></div>', body).css({
+            markExpandor = $('<div>', {mkclip: 'true'}, body).css({
                 background: 'url(' + backgroundImageSrc + ') -120px -66px no-repeat',
                 height: 20,
                 width: 20,
@@ -148,7 +148,7 @@
                 left: 1,
                 'z-index': popupZIndex - 1
             }).attr('title', 'MarkExpandorTip'),
-            markClose = $('<div mkclip="true"></div>', body).css({
+            markClose = $('<div>', {mkclip: 'true'}, body).css({
                 background: 'url(' + backgroundImageSrc + ') -120px -44px no-repeat',
                 height: 20,
                 width: 20,
@@ -158,7 +158,7 @@
                 left: 23,
                 'z-index': popupZIndex - 1
             }).attr('title', 'CancelTip');
-            self.mark = $('<div mkclip="true"></div>', body).css({
+            self.mark = $('<div>', {mkclip: 'true'}, body).css({
                 'border-radius': 5,
                 border: '3px solid #a2cca2',
                 position: 'absolute',
@@ -168,7 +168,7 @@
                 background: 'transparent'
             }).append(markInner).append(markExpandor).append(markClose);
 	    body.append(self.cover).append(self.mask);
-            self.markContainer = $('<div mkclip="true"></div>', body).appendTo(body);
+            self.markContainer = $('<div>', {mkclip: 'true'}, body).appendTo(body);
             self.markedElements = {};//save all marked page element
             self.marks = {};//save all marks
             self.markCount = 0;
@@ -289,7 +289,7 @@
         },
         clearMarks: function(){
             var self = this;
-            self.markContainer.html('');
+            self.markContainer.text('');
             self.markedElements = {};
             self.marks = {};
             self.markCount = 0;
@@ -450,7 +450,7 @@
                 }
                 cloneNode.css(styleObj);
                 self.removeAttrs(cloneNode);
-		var div = $('<div></div>', content.document).append(cloneNode);
+		var div = $('<div>', content.document).append(cloneNode);
                 return div.html();
             }
         },

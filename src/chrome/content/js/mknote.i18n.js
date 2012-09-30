@@ -27,13 +27,13 @@
                 message = ele.attr('message');
                 if(message.indexOf(':') == -1){
                     //html
-                    ele.html(self.getMessage(message));
+                    ele.text(self.getMessage(message));
                 }else{
                     message = message.split('|');
                     for(let i = 0; i < message.length; i++){
                         let parts = message[i].split(':');
                         if(parts[0] == 'html'){
-                            ele.html(self.getMessage(parts[1]));
+                            ele.text(self.getMessage(parts[1]));
                         }else{
                             ele.attr(parts[0], self.getMessage(parts[1]));
                         }

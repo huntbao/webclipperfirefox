@@ -46,9 +46,19 @@
                     self.notifyHTML('SaveNoteSuccess');
                     successCallback && successCallback();
                     var successTip = self.getI18nMessage('SaveNoteSuccess'),
-                    viewURL = self.clipper.baseUrl + '/note/previewfull/' + data.Note.NoteID,
+                    viewURL = self.escapeHTML(self.clipper.baseUrl + '/note/previewfull/' + data.Note.NoteID),
                     viewTxt = self.getI18nMessage('ViewText');
-                    self.notifyHTML(successTip + '<a href="' + viewURL + '" target="_blank" id="customclosebtn">' + viewTxt + '</a>', 10000, true);
+		    var tip1 = $('<span>', {text: successTip}, content.document),
+		    tip2 = $('<a>', {
+			    href: '#',
+			    text: viewTxt,
+			    style: 'color:#81b205;cursor:pointer;'
+			}, content.document).click(function(e){
+			    window.open(viewURL);
+			    self.clipper.Notification.close();
+			});
+		    tip1.append(tip2);
+                    self.notifyHTML(tip1, 10000, true);
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     failCallback && failCallback();
@@ -61,7 +71,7 @@
         savePageContent: function(title, sourceurl, noteContent){
             var self = this;
             if(self.clipper.options.settings.serializeImg){
-                var noteContentCon = $('<div></div>', content.document).append(noteContent),
+                var noteContentCon = $('<div>', content.document).append(noteContent),
                 imgs = noteContentCon.find('img'),
                 needReplaceImgs = [],
                 filteredImg = {},
@@ -113,7 +123,7 @@
                 });
             }
             if(self.clipper.options.settings.serializeImg){
-                var noteContentCon = $('<div></div>', content.document).append(noteContent),
+                var noteContentCon = $('<div>', content.document).append(noteContent),
                 imgs = noteContentCon.find('img'),
                 needReplaceImgs = [],
                 filteredImg = {},
@@ -270,13 +280,13 @@
                 fileName += '.png';//default png format
             }
             var ext = fileName.split('.')[1];
-            ctx.drawImage(image, 0, 0);
+            ctx.drawImage(image, 0, 0, image.width, image.height);
             var file = canvas.mozGetAsFile(fileName, 'image/' + ext);
             successCallback(file, index);
         },
-        notifyHTML: function(message, lastTime, purgeText){
+        notifyHTML: function(message, lastTime, isNode){
             var self = this;
-            message = purgeText ? message : self.getI18nMessage(message);
+            message = isNode ? message : self.getI18nMessage(message);
             self.clipper.Notification.show(message, lastTime);
         },
         getI18nMessage: function(i18nString){
@@ -324,5 +334,9 @@
             finalTitle = finalTitle.trim();
             return finalTitle.length > 0 ? finalTitle : ('[' + self.clipper.i18n.getMessage('DefaultTitle') + ']');
         },
+        escapeHTML: function(str){
+            return str.replace(/[&"<>]/g, function (m) ({ "&": "&amp;", '"': "&quot", "<": "&lt;", ">": "&gt;" })[m]);
+        }
+	
     }
 })(MKNoteWebclipper.jQuery);

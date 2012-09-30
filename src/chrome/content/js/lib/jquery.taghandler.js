@@ -1,4 +1,4 @@
-﻿/*
+/*
     jQuery Tag Handler v1.2.1
     Copyright (C) 2010-2011 Mark Jubenville
     Mark Jubenville - ioncache@gmail.com
@@ -238,7 +238,7 @@
                 // input field
                 tagContainerObject.addClass(opts.className + "Container");
                 if (opts.allowEdit) {
-                    tagContainerObject.html('<li class="tagInput"><input class="tagInputField" type="text" placeholder="回车确认添加" /></li>');
+                    tagContainerObject.html('<li class="tagInput"><input class="tagInputField" type="text" /></li>');
                 }
                 var inputField = tagContainerObject.find(".tagInputField");
     

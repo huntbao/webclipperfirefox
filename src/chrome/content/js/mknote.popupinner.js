@@ -64,7 +64,7 @@
                 return false;
             });
 	    $('#resetbtn').click(function(e){
-		noteContent.html('').focus();
+		noteContent.text('').focus();
 		self.title.val('');
 		communicationProxy.reset();
 	    });
@@ -130,7 +130,7 @@
         },
         userloginedHandler: function(userData, settings){
             var self = this;
-            $('#username').html(userData.user.NickName)
+            $('#username').text(userData.user.NickName)
             .attr('title', communicationProxy.clipper.i18n.getMessage('LoginMaiku'))
             .attr('href', communicationProxy.clipper.baseUrl)
             .addClass('logined')
@@ -144,7 +144,7 @@
         userlogoutedHandler: function(){
             var self = this;
 	    self.clearCategories();
-            $('#username').html(communicationProxy.clipper.i18n.getMessage('NotLoginMaiku'))
+            $('#username').text(communicationProxy.clipper.i18n.getMessage('NotLoginMaiku'))
             .attr('title', communicationProxy.clipper.i18n.getMessage('NotLoginMaikuTip'))
             .removeClass('logined')
             .unbind('click').click(function(e){
@@ -173,7 +173,7 @@
             });
             self.dropList.delegate('li', 'click', function(e){
                 var t = $(this);
-                self.displayName.html(t.html()).data('cateid', t.attr('cateid'));
+                self.displayName.text(t.text()).data('cateid', t.attr('cateid'));
 		communicationProxy.clipper.options.defaultCategory = t.attr('cateid');
             });
         },
@@ -183,33 +183,47 @@
 	    publicCategories = userData.categories.pub,
 	    defaultCategory = settings.defaultCategory,
 	    foundCategory = '',
-	    displayName = communicationProxy.clipper.i18n.getMessage('DefaultCatecory'),
-	    tStr = '<li class="mkbm-category-title">' + communicationProxy.clipper.i18n.getMessage('PrivateCatecory') + '</li>',
+	    displayName = communicationProxy.clipper.i18n.getMessage('DefaultCatecory');
+	    self.dropList.append($('<li>', {
+		'class': 'mkbm-category-title',
+		text: communicationProxy.clipper.i18n.getMessage('PrivateCatecory')
+	    }));
+	    var cdn = '',
             genStrByCates = function(cates){
                 for(var i = 0, l = cates.length, cate; i < l; i++){
                     cate = cates[i];
+		    cdn = self.escapeHTML(cate.DisplayName);
                     if(cate.ParentID){
-                        tStr += '<li class="mkbm-child-category" cateid="' + cate.NoteCategoryID + '">' + cate.DisplayName + '</li>';
+			self.dropList.append($('<li>', {
+			    'class': 'mkbm-child-category',
+			    cateid: cate.NoteCategoryID,
+			    text: cdn
+			}));
                     }else{
-                        tStr += '<li cateid="' + cate.NoteCategoryID + '">' + cate.DisplayName + '</li>';
+			self.dropList.append($('<li>', {
+			    cateid: cate.NoteCategoryID,
+			    text: cdn
+			}));
                     }
 		    if(!foundCategory && (cate.NoteCategoryID == defaultCategory)){
-			displayName = cate.DisplayName;
+			displayName = cdn;
 			foundCategory = defaultCategory;
 		    }
                 }
             }
             genStrByCates(privateCategories);
-            tStr += '<li class="mkbm-category-title">' + communicationProxy.clipper.i18n.getMessage('PublicCatecory') + '</li>';
+	    self.dropList.append($('<li>', {
+		'class': 'mkbm-category-title',
+		text: communicationProxy.clipper.i18n.getMessage('PublicCatecory')
+	    }));
             genStrByCates(publicCategories);
-            self.dropList.html(tStr);
 	    self.displayNameWrap.attr('title', '');
-	    self.displayName.html(displayName).data('cateid', foundCategory);
+	    self.displayName.text(displayName).data('cateid', foundCategory);
         },
 	clearCategories: function(){
 	    var self = this;
-	    self.dropList.html('');
-	    self.displayName.html(communicationProxy.clipper.i18n.getMessage('DefaultCatecory'));
+	    self.dropList.text('');
+	    self.displayName.text(communicationProxy.clipper.i18n.getMessage('DefaultCatecory'));
 	    self.displayNameWrap.attr('title', self.displayNameWrap.data('title'));
 	},
         initTags: function(){
@@ -223,12 +237,12 @@
                     tags.scrollTop(9999999);
                 },
                 onFocus: function(){
-                    if(tags.attr('class').indexOf('mkbm-tags-expand') == -1){
+                    if(tags.hasClass('mkbm-tags-expand') === false){
                         tags.addClass('mkbm-tags-expand mkbm-focus');
                     }
                 },
                 onBlur: function(){
-                    if(tags.attr('class').indexOf('mkbm-tags-expand') != -1){
+                    if(tags.hasClass('mkbm-tags-expand')){
                         tags.removeClass('mkbm-tags-expand mkbm-focus');
                     }
                 }
@@ -246,6 +260,7 @@
                 tags.scrollTop(0);
                 tags.removeClass('mkbm-tags-expand mkbm-focus');
             });
+	    tagHandlerEl.find('.tagInputField').attr('placeholder', communicationProxy.clipper.i18n.getMessage('TagInputFieldPlaceholder'));
 	    self.tagHandlerEl = tagHandlerEl;
         },
 	initAddNode: function(){
@@ -253,7 +268,7 @@
 	    communicationProxy.addNode = function(data){
 		if(data.add){
 		    //add content
-		    self.addNode($('<div mkclip="true" id="' + data.uid + '"></div>').append(data.noteContent));
+		    self.addNode($('<div>', {mkclip: 'true', id: data.uid}).append(data.noteContent));
 		    if(data.title){
 			//for auto extract content
 			self.title.val(data.title);
@@ -263,7 +278,10 @@
 		    $('#' + data.uid).remove();
 		}
 	    }
-	}
+	},
+        escapeHTML: function(str){
+            return str.replace(/[&"<>]/g, function (m) ({ "&": "&amp;", '"': "&quot", "<": "&lt;", ">": "&gt;" })[m]);
+        }
     }
     $(function(){
 	var startTime = new Date().getTime(),

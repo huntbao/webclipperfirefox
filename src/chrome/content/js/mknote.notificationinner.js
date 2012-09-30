@@ -9,29 +9,26 @@
         },
         initContent: function(params){
             var self = this;
-            $('#title').html(params.i18n.getMessage('ExtensionName'));
-            var tip = $('#tip').html(params.message),
-            checkCloseBtn = function(){
-                var closeBtn = $('#customclosebtn');
-                if(closeBtn.length > 0){
-                    closeBtn.mouseup(function(){
-                        setTimeout(function(){
-                            params.desktopNotification.close();
-                        }, 50);
-                    });
+            $('#title').text(params.i18n.getMessage('ExtensionName'));
+            var tip = $('#tip'),
+            changeTip = function(msg){
+                if(typeof msg === 'string'){
+                    tip.empty().append($('<span>', {text: msg}));
+                }else if(typeof msg === 'object'){
+                    tip.empty().append(msg);
                 }
             }
+            changeTip(params.message);
+            
             //rewrite changeMessage method
             params.changeMessage = function(message){
                 tip.css('opacity', 1).fadeOut(function(){
-                    $(this).html(message).fadeIn();
-                    checkCloseBtn();
+                    changeTip(message);
+                    $(this).fadeIn();
                 });
             }
-            
             params.notificationReady = true;
             
-            checkCloseBtn();
         },
         initCloseBtn: function(params){
             var self = this;
