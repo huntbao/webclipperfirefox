@@ -13,7 +13,7 @@
             <stringbundle id="mknotewebclipper-i18n" src="chrome://mknotewebclipper/locale/mknotewebclipper.properties"/>
         </stringbundleset>
         <iframe id="mknotewebclipperoptions" src="chrome://mknotewebclipper/content/options.html" style="padding:0px;margin:0px;height:1000px;"/>
-        <script type="text/javascript" src="chrome://mknotewebclipper/content/js/lib/jquery.min.js"></script>
+        <script type="text/javascript" src="chrome://mknotewebclipper/content/js/lib/jquery-1.7.2.min.js"></script>
         <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.namespace.js"></script>
         <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.i18n.js"></script>
         <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.util.js"></script>

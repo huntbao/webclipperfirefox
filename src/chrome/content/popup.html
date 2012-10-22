@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8"/>
 	<title>MaiKu Web Clipper Popup Page</title>
+        <link rel="stylesheet" href="css/jquery.tagme.css" />
         <link rel="stylesheet" href="css/popup.css" />
     </head>
     <body>
@@ -41,12 +42,11 @@
                         <ul class="mkbm-category-select"></ul>
                     </div>
                     <div class="mkbm-tags">
-                        <div class="mkbm-taghandler">
-                            <ul class="mkbm-tagHandler-init mkbm-taghandlerContainer">
-                                <li class="tagInput"><input class="tagInputField message" type="text" message="title:TagInputTitle|placeholder:TagInputTitle" /></li>
-                            </ul>
-                        </div>
-                    </div>
+			<div class="mkbm-tagme">
+			    <ul class="mkbm-tagme-container">
+			    </ul>
+			</div>
+		    </div>
                 </div>
                 <div class="notecontentwrap" id="notecontentwrap">
                     <div id="notecontent" contenteditable="true" class="notecontent"></div>
@@ -61,8 +61,8 @@
                 </div>
             </div>
         </div>
-	<script src="js/lib/jquery.min.js"></script>
-	<script src="js/lib/jquery.taghandler.js"></script>
+	<script src="js/lib/jquery-1.7.2.min.js"></script>
+	<script src="js/lib/jquery.tagme.js"></script>
 	<script src="js/mknote.namespace.js"></script>
 	<script src="js/mknote.popupinner.js"></script>
     </body>

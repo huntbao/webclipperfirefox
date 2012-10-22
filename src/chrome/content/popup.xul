@@ -3,7 +3,7 @@
 <!DOCTYPE panel SYSTEM "chrome://mknotewebclipper/locale/popup.dtd">
 
 <panel onload="MKNoteWebclipper.Popup.init()" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/lib/jquery.min.js"></script>
+    <script type="text/javascript" src="chrome://mknotewebclipper/content/js/lib/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="chrome://mknotewebclipper/content/js/lib/extract-content.js"></script>
     <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.namespace.js"></script>
     <script type="text/javascript" src="chrome://mknotewebclipper/content/js/mknote.popup.js"></script>

@@ -1,0 +1,31 @@
+.tagme-container{
+    line-height: 30px;
+    cursor: default;
+}
+.tagme-container li.tagme-item{
+    border-radius: 15px;
+    height: 14px;
+    line-height: 14px;
+    display: block;
+    float: left;
+    font-size: 12px;
+    margin: 5px 5px 5px 0;
+    white-space: nowrap;
+}
+.tagme-container li.tagme-item:hover{
+    background-color: #976619;
+}
+.tagme-container .tagme-item{
+    background-color: #94bf17;
+    color: #fff;
+    padding: 3px 8px;
+    cursor: default;
+}
+.tagme-container .tagme-input{
+    box-sizing: border-box;
+    border: none;
+    background-color: #fff;
+    color: #666;
+    font-size: 12px;
+    outline: none;
+}
