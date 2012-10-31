@@ -70,8 +70,8 @@
                     return;
                 }
             }
-            title = target.title || target.text || target.href,
-            noteContent = '<a href="' + target.href + '" title="' + target.title + '">' + (target.text || target.href) + '</a>';
+            var title = target.title || target.text || target.href,
+            noteContent = '<a href="' + target.href.escapeHTML() + '" title="' + target.title.escapeHTML() + '">' + (target.text || target.href).escapeHTML() + '</a>';
             self.Note.saveNote(title, content.location.href, noteContent);  
         },
         clipPageContent: function(){
@@ -89,7 +89,7 @@
             noteContent = '';
             for(var i = 0, l = links.length, link; i < l; i++){
                 link = links[i];
-                noteContent += '<a href="' + link.href + '" title="' + link.title + '">' + link.text + '</a><br />';
+                noteContent += '<a href="' + link.href.escapeHTML() + '" title="' + link.title.escapeHTML() + '">' + link.text.escapeHTML() + '</a><br />';
             }
             self.Note.saveNote(content.document.title, content.location.href, noteContent);
         },
@@ -121,8 +121,8 @@
             url = content.location.href,
             title = content.document.title,
             favIconUrl = self.getFaviconForPage(url),
-            noteContent = '<img src="' + favIconUrl.spec + '" title="' + title + '" alt="' + title + '"/>' +
-                '<a href="' + url + '" title="' + title + '">' + url + '</a>';
+            noteContent = '<img src="' + favIconUrl.spec.escapeHTML() + '" title="' + title.escapeHTML() + '" alt="' + title.escapeHTML() + '"/>' +
+                '<a href="' + url.escapeHTML() + '" title="' + title.escapeHTML() + '">' + url.escapeHTML() + '</a>';
             self.Note.saveNote(title, url, noteContent);
         },
         newNote: function(){

@@ -46,7 +46,7 @@
                     self.notifyHTML('SaveNoteSuccess');
                     successCallback && successCallback();
                     var successTip = self.getI18nMessage('SaveNoteSuccess'),
-                    viewURL = self.escapeHTML(self.clipper.baseUrl + '/note/previewfull/' + data.Note.NoteID),
+                    viewURL = (self.clipper.baseUrl + '/note/previewfull/' + data.Note.NoteID).escapeHTML(),
                     viewTxt = self.getI18nMessage('ViewText');
 		    var tip1 = $('<span>', {text: successTip}, content.document),
 		    tip2 = $('<a>', {
@@ -188,7 +188,7 @@
             titles = [],
             saveNormalNote = function(){
                 for(let i = 0; i < totalImgNum; i++){
-                    noteContent += '<img src="' + imgs[i].src + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
+                    noteContent += '<img src="' + imgs[i].src.escapeHTML() + '" title="' + titles[i].escapeHTML() + '" alt="' + titles[i].escapeHTML() + '"><br />';
                 }
                 self.saveNote(msg.title, msg.sourceurl, noteContent, msg.tags);
             }
@@ -235,10 +235,10 @@
                                         realIndex = serializeSucceedImgIndexByOrder[i];
                                         if(realIndex){
                                             d = data[realIndex];
-                                            noteContent += '<img src="' + d.Url + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
+                                            noteContent += '<img src="' + d.Url.escapeHTML() + '" title="' + titles[i].escapeHTML() + '" alt="' + titles[i].escapeHTML() + '"><br />';
                                             delete serializeSucceedImgIndexByOrder[i];
                                         }else{
-                                            noteContent += '<img src="' + imgs[i].src + '" title="' + titles[i] + '" alt="' + titles[i] + '"><br />';
+                                            noteContent += '<img src="' + imgs[i].src.escapeHTML() + '" title="' + titles[i].escapeHTML() + '" alt="' + titles[i].escapeHTML() + '"><br />';
                                         }
                                     }
                                     self.saveNote(msg.title, msg.sourceurl, noteContent, msg.tags, '', noteId);
@@ -333,9 +333,6 @@
             }
             finalTitle = finalTitle.trim();
             return finalTitle.length > 0 ? finalTitle : ('[' + self.clipper.i18n.getMessage('DefaultTitle') + ']');
-        },
-        escapeHTML: function(str){
-            return str.replace(/[&"<>]/g, function (m) ({ "&": "&amp;", '"': "&quot", "<": "&lt;", ">": "&gt;" })[m]);
         }
 	
     }

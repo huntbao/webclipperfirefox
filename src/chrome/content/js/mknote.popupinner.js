@@ -192,7 +192,7 @@
             genStrByCates = function(cates){
                 for(var i = 0, l = cates.length, cate; i < l; i++){
                     cate = cates[i];
-		    cdn = self.escapeHTML(cate.DisplayName);
+		    cdn = cate.DisplayName;
                     if(cate.ParentID){
 			self.dropList.append($('<li>', {
 			    'class': 'mkbm-child-category',
@@ -267,10 +267,7 @@
 		    $('#' + data.uid).remove();
 		}
 	    }
-	},
-        escapeHTML: function(str){
-            return str.replace(/[&"<>]/g, function (m) ({ "&": "&amp;", '"': "&quot", "<": "&lt;", ">": "&gt;" })[m]);
-        }
+	}
     }
     $(function(){
 	var startTime = new Date().getTime(),
