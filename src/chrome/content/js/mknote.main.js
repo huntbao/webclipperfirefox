@@ -71,7 +71,7 @@
                 }
             }
             var title = target.title || target.text || target.href,
-            noteContent = '<a href="' + target.href.escapeHTML() + '" title="' + target.title.escapeHTML() + '">' + (target.text || target.href).escapeHTML() + '</a>';
+            noteContent = '<a href="' + self.Util.escapeHTML(target.href) + '" title="' + self.Util.escapeHTML(target.title) + '">' + self.Util.escapeHTML((target.text || target.href)) + '</a>';
             self.Note.saveNote(title, content.location.href, noteContent);  
         },
         clipPageContent: function(){
@@ -89,7 +89,7 @@
             noteContent = '';
             for(var i = 0, l = links.length, link; i < l; i++){
                 link = links[i];
-                noteContent += '<a href="' + link.href.escapeHTML() + '" title="' + link.title.escapeHTML() + '">' + link.text.escapeHTML() + '</a><br />';
+                noteContent += '<a href="' + self.Util.escapeHTML(link.href) + '" title="' + self.Util.escapeHTML(link.title) + '">' + self.Util.escapeHTML(link.text) + '</a><br />';
             }
             self.Note.saveNote(content.document.title, content.location.href, noteContent);
         },
@@ -121,8 +121,8 @@
             url = content.location.href,
             title = content.document.title,
             favIconUrl = self.getFaviconForPage(url),
-            noteContent = '<img src="' + favIconUrl.spec.escapeHTML() + '" title="' + title.escapeHTML() + '" alt="' + title.escapeHTML() + '"/>' +
-                '<a href="' + url.escapeHTML() + '" title="' + title.escapeHTML() + '">' + url.escapeHTML() + '</a>';
+            noteContent = '<img src="' + self.Util.escapeHTML(favIconUrl.spec) + '" title="' + self.Util.escapeHTML(title) + '" alt="' + self.Util.escapeHTML(title) + '"/>' +
+                '<a href="' + self.Util.escapeHTML(url) + '" title="' + self.Util.escapeHTML(title) + '">' + self.Util.escapeHTML(url) + '</a>';
             self.Note.saveNote(title, url, noteContent);
         },
         newNote: function(){

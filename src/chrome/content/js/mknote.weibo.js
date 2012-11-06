@@ -85,14 +85,14 @@
 			tags: tag,
 			sourceurl: sourceurl
 		    }, function(data, serializeSucceedImgIndexByOrder, noteId){
-			noteContent += '<br /><img src="' + data[0].ExternalUrl.escapeHTML() + '">';
+			noteContent += '<br /><img src="' + self.Util.escapeHTML(data[0].ExternalUrl) + '">';
 			self.Note.saveNote(title, sourceurl, noteContent, tag, '', noteId);
 		    }, function(){
-			noteContent += '<br /><img src="' + img.src.escapeHTML() + '">';
+			noteContent += '<br /><img src="' + self.Util.escapeHTML(img.src) + '">';
 			self.Note.saveNote(title, sourceurl, noteContent, tag);
 		    });
 		}
-		largeImg.src = img[0].src.escapeHTML().replace(/thumbnail/, 'large').replace(/bmiddle/, 'large');
+		largeImg.src = self.Util.escapeHTML(img[0].src).replace(/thumbnail/, 'large').replace(/bmiddle/, 'large');
 	    }else{
 		self.Note.saveNote(title, sourceurl, noteContent, tag);
 	    }

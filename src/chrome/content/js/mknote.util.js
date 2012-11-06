@@ -54,6 +54,9 @@ MKNoteWebclipper.Util = {
             self._console = Components.classes['@mozilla.org/consoleservice;1'].getService(Components.interfaces.nsIConsoleService);
         }
         return self._console;
+    },
+    escapeHTML: function(str){
+        return MKNoteWebclipper.jQuery('<div>', content.document).text(str).html();
     }
 };
 MKNoteWebclipper.Util.__defineGetter__('console', MKNoteWebclipper.Util.getConsole);

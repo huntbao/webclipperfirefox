@@ -46,7 +46,7 @@
                     self.notifyHTML('SaveNoteSuccess');
                     successCallback && successCallback();
                     var successTip = self.getI18nMessage('SaveNoteSuccess'),
-                    viewURL = (self.clipper.baseUrl + '/note/previewfull/' + data.Note.NoteID).escapeHTML(),
+                    viewURL = self.clipper.Util.escapeHTML(self.clipper.baseUrl + '/note/previewfull/' + data.Note.NoteID),
                     viewTxt = self.getI18nMessage('ViewText');
 		    var tip1 = $('<span>', {text: successTip}, content.document),
 		    tip2 = $('<a>', {
@@ -188,7 +188,7 @@
             titles = [],
             saveNormalNote = function(){
                 for(let i = 0; i < totalImgNum; i++){
-                    noteContent += '<img src="' + imgs[i].src.escapeHTML() + '" title="' + titles[i].escapeHTML() + '" alt="' + titles[i].escapeHTML() + '"><br />';
+                    noteContent += '<img src="' + self.clipper.Util.escapeHTML(imgs[i].src) + '" title="' + self.clipper.Util.escapeHTML(titles[i]) + '" alt="' + self.clipper.Util.escapeHTML(titles[i]) + '"><br />';
                 }
                 self.saveNote(msg.title, msg.sourceurl, noteContent, msg.tags);
             }
@@ -235,10 +235,10 @@
                                         realIndex = serializeSucceedImgIndexByOrder[i];
                                         if(realIndex){
                                             d = data[realIndex];
-                                            noteContent += '<img src="' + d.Url.escapeHTML() + '" title="' + titles[i].escapeHTML() + '" alt="' + titles[i].escapeHTML() + '"><br />';
+                                            noteContent += '<img src="' + self.clipper.Util.escapeHTML(d.Url) + '" title="' + self.clipper.Util.escapeHTML(titles[i]) + '" alt="' + self.clipper.Util.escapeHTML(titles[i]) + '"><br />';
                                             delete serializeSucceedImgIndexByOrder[i];
                                         }else{
-                                            noteContent += '<img src="' + imgs[i].src.escapeHTML() + '" title="' + titles[i].escapeHTML() + '" alt="' + titles[i].escapeHTML() + '"><br />';
+                                            noteContent += '<img src="' + self.clipper.Util.escapeHTML(imgs[i].src) + '" title="' + self.clipper.Util.escapeHTML(titles[i]) + '" alt="' + self.clipper.Util.escapeHTML(titles[i]) + '"><br />';
                                         }
                                     }
                                     self.saveNote(msg.title, msg.sourceurl, noteContent, msg.tags, '', noteId);
